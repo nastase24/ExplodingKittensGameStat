@@ -11,10 +11,6 @@ import android.view.View.OnClickListener;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-
-
-
     Context context = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +25,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        ExplodingKittensGameState firstInstance = new ExplodingKittensGameState(context);
+        ExplodingKittensGameState firstInstance = new ExplodingKittensGameState();
     }
 }

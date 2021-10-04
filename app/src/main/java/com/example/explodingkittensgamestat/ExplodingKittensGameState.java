@@ -2,6 +2,7 @@ package com.example.explodingkittensgamestat;
 
 import android.content.Context;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -12,58 +13,29 @@ import java.util.ArrayList;
 public class ExplodingKittensGameState {
 
 
-    /**
-     * DECK:
-     * index 0: draw pile
-     * index 1: discard pile
-     * index 2: human player deck
-     * index 3: dumb AI deck
-     * index 4: dumber AI deck
-     * index 5 dumbest AI deck
-     */
-    public ArrayList<ArrayList<Card>> deck;
+    public ArrayList<ArrayList<Card>> playerHand;
     public ArrayList<Card> discard;
     public ArrayList<Card> draw;
-    public ArrayList<Card> humanPlayer;
-    public  ArrayList<Card> dumb;
-    public ArrayList<Card> dumber;
-    public ArrayList<Card> dumbest;
 
 
     //default constructor
-    public ExplodingKittensGameState(Context context){
-
-        deck = new ArrayList<ArrayList<Card>>(6);
-
-        draw = new ArrayList<Card>(56);
-        deck.add(draw);
-
-        discard = new ArrayList<Card>();
-        deck.add(discard);
-
-        humanPlayer = new ArrayList<Card>(7);
-        deck.add(humanPlayer);
-
-        dumb = new ArrayList<Card>(7);
-        deck.add(dumb);
-
-        dumber = new ArrayList<>(7);
-        deck.add(dumber);
-
-        dumbest = new ArrayList<Card>(7);
-        deck.add(dumbest);
-
-        createCards(context);
+    public ExplodingKittensGameState(ArrayList<ArrayList<Card>> playerHand, ArrayList<Card> discard, ArrayList<Card> draw){
+        this.playerHand = playerHand;
+        this.discard = discard;
+        this.draw = draw;
+        // Assign variables as normal
+        // Create totally normal constructor
     }
 
     //deep copy constructor
     public ExplodingKittensGameState(ExplodingKittensGameState state){
-        // With objects, need to use "new" keyword to
-        // assign new memory
-
-        // this.x = p.x;
-        //this.y = p.y;
-        //this.address = new address(p.address); // deep copy
+        // Check if this actually assigns new memory or not - ask Tribelhorn
+        this.playerHand.addAll(state.playerHand);
+        for (int i = 0; i < playerHand.size(); i++) {
+            playerHand.add(new ArrayList<Card>(playerHand.get(i)));
+        }
+        this.discard.addAll(state.discard);
+        this.draw.addAll(state.draw);
     }
 
     public void createCards(Context context){
@@ -77,12 +49,6 @@ public class ExplodingKittensGameState {
         Card defuse4 = new Card(context, Card.cardType.DEFUSE);
         Card defuse5 = new Card(context, Card.cardType.DEFUSE);
         Card defuse6 = new Card(context, Card.cardType.DEFUSE);
-        deck.get(0).add(defuse1);
-        deck.get(0).add(defuse2);
-        deck.get(2).add(defuse3);
-        deck.get(3).add(defuse4);
-        deck.get(4).add(defuse5);
-        deck.get(5).add(defuse6);
 
         Card attack1 = new Card(context, Card.cardType.ATTACK);
         Card attack2 = new Card(context, Card.cardType.ATTACK);
@@ -137,7 +103,10 @@ public class ExplodingKittensGameState {
         Card taco4 = new Card(context, Card.cardType.TACO);
     }
 
-    boolean playCard() {
+    boolean playCard(boolean isValid) {
+        if (/* Something */) {
+            return true;
+        }
         return false;
     }
     boolean drawCard() {
@@ -176,6 +145,6 @@ public class ExplodingKittensGameState {
 
     @Override
     public String toString() {
-        return "";
+        return playerHand + " " + discard + " " + draw;
     }
 }
