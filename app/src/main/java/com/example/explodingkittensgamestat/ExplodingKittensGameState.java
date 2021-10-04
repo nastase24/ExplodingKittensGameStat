@@ -49,6 +49,11 @@ public class ExplodingKittensGameState {
         Card nope4 = new Card(context, Card.cardType.NOPE);
         Card nope5 = new Card(context, Card.cardType.NOPE);
 
+        Card shuffle1 = new Card(context, Card.cardType.SHUFFLE);
+        Card shuffle2 = new Card(context, Card.cardType.SHUFFLE);
+        Card shuffle3 = new Card(context, Card.cardType.SHUFFLE);
+        Card shuffle4 = new Card(context, Card.cardType.SHUFFLE);
+
         Card skip1 = new Card(context, Card.cardType.SKIP);
         Card skip2 = new Card(context, Card.cardType.SKIP);
         Card skip3 = new Card(context, Card.cardType.SKIP);
