@@ -85,4 +85,41 @@ public class ExplodingKittensGameState {
         Card taco3 = new Card(context, Card.cardType.TACO);
         Card taco4 = new Card(context, Card.cardType.TACO);
     }
+
+    boolean playCard() {
+        return false;
+    }
+    boolean drawCard() {
+        return false;
+    }
+    boolean defuse() {
+        return false;
+    }
+    boolean attack() {
+        return false;
+    }
+    boolean skip() {
+        return false;
+    }
+    boolean seeFuture() {
+        return false;
+    }
+    boolean shuffle() {
+        return false;
+    }
+    boolean favor() {
+        return false;
+    }
+    boolean nope() {
+        return false;
+    }
+    boolean twoOfKind() {
+        return false;
+    }
+    boolean threeOfKind() {
+        return false;
+    }
+    boolean playFive() {
+        return false;
+    }
 }
