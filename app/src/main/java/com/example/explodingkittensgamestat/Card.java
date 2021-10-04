@@ -19,6 +19,7 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton{
      * 4 favor
      * 5 nope cards
      * 4 shuffle
+     *
      * 4 skip
      * 5 see the future
      * 4 melon
@@ -26,6 +27,7 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton{
      * 4 potato
      * 4 taco
      */
+
     public enum cardType{
         MELON,
         BEARD,
@@ -59,9 +61,8 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton{
     public String description;
 
     //set card info in this constructor
-    public Card(Context context, int id, cardType type) {
+    public Card(Context context, cardType type) {
         super(context);
-        ID = id;
         cardType = type;
         //button = onScreenButton;
 
