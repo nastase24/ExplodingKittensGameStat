@@ -12,6 +12,11 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     Context context = this;
+
+    public ArrayList<ArrayList<Card>> playerHand;
+    public ArrayList<Card> discard;
+    public ArrayList<Card> draw;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +30,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        ExplodingKittensGameState firstInstance = new ExplodingKittensGameState();
+        ExplodingKittensGameState firstInstance = new ExplodingKittensGameState(playerHand, discard, draw);
+        ExplodingKittensGameState secondInstance = new ExplodingKittensGameState(firstInstance);
+        // I am not sure if this is the correct way to assign the variables
+        ExplodingKittensGameState thirdInstance = new ExplodingKittensGameState(playerHand, discard, draw);
     }
 }

@@ -70,5 +70,4 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton{
         isOnScreen = false;
         isCatCard = false;
     }
-
 }
