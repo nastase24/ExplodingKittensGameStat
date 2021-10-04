@@ -12,14 +12,13 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton{
     private final Object cardType;
 
     /**
-     * DECK for 4 players, 56 cards TOTAL
+     * DECK for 4 players, 52 cards TOTAL
      * 4 exploders
      * 6 diffuse
      * 4 attack
      * 4 favor
      * 5 nope cards
      * 4 shuffle
-     *
      * 4 skip
      * 5 see the future
      * 4 melon
@@ -33,7 +32,6 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton{
         BEARD,
         POTATO,
         TACO,
-        FERAL,
         ATTACK,
         SHUFFLE,
         FAVOR,
@@ -49,7 +47,7 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton{
     public int ID;
 
     //Button to link with the Model
-    public ImageButton button;
+    //public ImageButton button;
 
     //Booleans to track whether a card is selcted and playable, both required to
     //actually play a card

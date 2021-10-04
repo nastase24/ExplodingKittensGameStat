@@ -7,14 +7,48 @@ import java.util.ArrayList;
 public class ExplodingKittensGameState {
 
 
-    public ArrayList<ArrayList<Card>> playerHand;
+    /**
+     * DECK:
+     * index 0: draw pile
+     * index 1: discard pile
+     * index 2: human player deck
+     * index 3: dumb AI deck
+     * index 4: dumber AI deck
+     * index 5 dumbest AI deck
+     */
+    public ArrayList<ArrayList<Card>> deck;
     public ArrayList<Card> discard;
     public ArrayList<Card> draw;
+    public ArrayList<Card> humanPlayer;
+    public  ArrayList<Card> dumb;
+    public ArrayList<Card> dumber;
+    public ArrayList<Card> dumbest;
 
 
     //default constructor
-    public ExplodingKittensGameState(){
+    public ExplodingKittensGameState(Context context){
 
+        deck = new ArrayList<ArrayList<Card>>(6);
+
+        draw = new ArrayList<Card>(56);
+        deck.add(draw);
+
+        discard = new ArrayList<Card>();
+        deck.add(discard);
+
+        humanPlayer = new ArrayList<Card>(7);
+        deck.add(humanPlayer);
+
+        dumb = new ArrayList<Card>(7);
+        deck.add(dumb);
+
+        dumber = new ArrayList<>(7);
+        deck.add(dumber);
+
+        dumbest = new ArrayList<Card>(7);
+        deck.add(dumbest);
+
+        createCards(context);
     }
 
     //deep copy constructor
@@ -32,6 +66,12 @@ public class ExplodingKittensGameState {
         Card defuse4 = new Card(context, Card.cardType.DEFUSE);
         Card defuse5 = new Card(context, Card.cardType.DEFUSE);
         Card defuse6 = new Card(context, Card.cardType.DEFUSE);
+        deck.get(0).add(defuse1);
+        deck.get(0).add(defuse2);
+        deck.get(2).add(defuse3);
+        deck.get(3).add(defuse4);
+        deck.get(4).add(defuse5);
+        deck.get(5).add(defuse6);
 
         Card attack1 = new Card(context, Card.cardType.ATTACK);
         Card attack2 = new Card(context, Card.cardType.ATTACK);
