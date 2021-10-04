@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class Card {
 
-    private final CARDTYPE cardType;
+    private CARDTYPE cardType;
 
     /**
      * DECK for 4 players, 52 cards TOTAL
@@ -50,6 +50,7 @@ public class Card {
     public boolean isPlayable;
     public boolean isOnScreen;
     public boolean isCatCard;
+    public boolean canPlayIfNope;
 
     //Description of what the card does
     public String description;
@@ -63,6 +64,7 @@ public Card(CARDTYPE type) {
         isSelected = false;
         isOnScreen = false;
         isCatCard = false;
+        canPlayIfNope = false;
     }
 
     // Copy constructor
