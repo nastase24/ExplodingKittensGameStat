@@ -4,6 +4,11 @@ import android.content.Context;
 
 import java.util.ArrayList;
 
+/**
+ * Exploding Kittens Game State
+ * @author annayrjanson
+ */
+
 public class ExplodingKittensGameState {
 
 
@@ -53,8 +58,14 @@ public class ExplodingKittensGameState {
 
     //deep copy constructor
     public ExplodingKittensGameState(ExplodingKittensGameState state){
+        // With objects, need to use "new" keyword to
+        // assign new memory
 
+        // this.x = p.x;
+        //this.y = p.y;
+        //this.address = new address(p.address); // deep copy
     }
+
     public void createCards(Context context){
         Card explode1 = new Card(context, Card.cardType.EXPLODE);
         Card explode2 = new Card(context, Card.cardType.EXPLODE);
@@ -124,5 +135,47 @@ public class ExplodingKittensGameState {
         Card taco2 = new Card(context, Card.cardType.TACO);
         Card taco3 = new Card(context, Card.cardType.TACO);
         Card taco4 = new Card(context, Card.cardType.TACO);
+    }
+
+    boolean playCard() {
+        return false;
+    }
+    boolean drawCard() {
+        return false;
+    }
+    boolean defuse() {
+        return false;
+    }
+    boolean attack() {
+        return false;
+    }
+    boolean skip() {
+        return false;
+    }
+    boolean seeFuture() {
+        return false;
+    }
+    boolean shuffle() {
+        return false;
+    }
+    boolean favor() {
+        return false;
+    }
+    boolean nope() {
+        return false;
+    }
+    boolean twoOfKind() {
+        return false;
+    }
+    boolean threeOfKind() {
+        return false;
+    }
+    boolean playFive() {
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "";
     }
 }
