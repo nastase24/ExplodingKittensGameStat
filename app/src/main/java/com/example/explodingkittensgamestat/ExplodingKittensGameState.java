@@ -4,18 +4,36 @@ import android.content.Context;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 /**
  * Exploding Kittens Game State
  * @author annayrjanson
  */
 
-public class ExplodingKittensGameState {
+public class ExplodingKittensGameState extends Hashtable{
 
 
     public ArrayList<ArrayList<Card>> playerHand;
     public ArrayList<Card> discard;
     public ArrayList<Card> draw;
+
+    public static final int MELON = 16536;
+    public static final int BEARD = 16552;
+    public static final int POTATO = 16547;
+    public static final int TACO = 16538;
+    public static final int ATTACK = 16550;
+    public static final int SHUFFLE = 16544;
+    public static final int FAVOR = 16542;
+    public static final int SKIP = 16540;
+    public static final int SEEFUTURE = 16555;
+    public static final int NOPE = 16557;
+    public static final int DEFUSE = 16559;
+    public static final int EXPLODE = 16561;
+
+    Hashtable<Integer,String> ht1 = new Hashtable();
+
+
 
 
     //default constructor
@@ -39,6 +57,35 @@ public class ExplodingKittensGameState {
     }
 
     public void createCards(Context context){
+        //sets the hash table keys and strings to the card description, and the card ID.
+        ht1.put(MELON,"Cat Cards: tacocat, cattermelon, hairy potato cat, and beard " +
+                "cat, must be played in matched pairs, a pair of three allows player to ask for a " +
+                "specific card from another's hand, and a pair of two allows player to ask for a " +
+                "random card from another's hand.");
+        ht1.put(BEARD,"Cat Cards: tacocat, cattermelon, hairy potato cat, and beard " +
+                "cat, must be played in matched pairs, a pair of three allows player to ask for a " +
+                "specific card from another's hand, and a pair of two allows player to ask for a " +
+                "random card from another's hand.");
+        ht1.put(POTATO,"Cat Cards: tacocat, cattermelon, hairy potato cat, and beard " +
+                "cat, must be played in matched pairs, a pair of three allows player to ask for a " +
+                "specific card from another's hand, and a pair of two allows player to ask for a " +
+                "random card from another's hand.");
+        ht1.put(TACO,"Cat Cards: tacocat, cattermelon, hairy potato cat, and beard " +
+                "cat, must be played in matched pairs, a pair of three allows player to ask for a " +
+                "specific card from another's hand, and a pair of two allows player to ask for a " +
+                "random card from another's hand.");
+        ht1.put(ATTACK, "Attack: the player ends their turn(s) without drawing a card and the next player takes two turns.");
+        ht1.put(SHUFFLE, "Shuffle: the player views the top three cards of the deck.");
+        ht1.put(FAVOR, "Favor: another player must give the player a card from their hand.");
+        ht1.put(SKIP,"Skip: the player ends their turn without drawing a card.");
+        ht1.put(SEEFUTURE, "See the Future: the player views the top three cards of the deck.");
+        ht1.put(NOPE,"Nope: stops the action of another player. Cannot be used on Exploding Kitten or Defuse cards.");
+        ht1.put(DEFUSE,"Defuse: allows the player to continue playing after drawing an Exploding Kitten.");
+        ht1.put(EXPLODE, "Exploding Kitten: a player loses when they draw this card, unless they have Defuse " +
+                "is discarded and the Exploding Kitten placed back into the deck.\n");
+
+
+        //TODO: ADD in card ID and descrption to the constructor
         Card explode1 = new Card(context, Card.cardType.EXPLODE);
         Card explode2 = new Card(context, Card.cardType.EXPLODE);
         Card explode3 = new Card(context, Card.cardType.EXPLODE);
