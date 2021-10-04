@@ -128,4 +128,9 @@ public class ExplodingKittensGameState {
     boolean playFive() {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "";
+    }
 }
