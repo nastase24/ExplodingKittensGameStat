@@ -142,6 +142,13 @@ public class ExplodingKittensGameState {
     boolean playFive() {
         return false;
     }
+    boolean restartGame() {
+        return false;
+    }
+    boolean quitGame() {
+        return false;
+    }
+
 
     @Override
     public String toString() {
