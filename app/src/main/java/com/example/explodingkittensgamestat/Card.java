@@ -54,20 +54,22 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton{
     public boolean isSelected;
     public boolean isPlayable;
     public boolean isOnScreen;
+    public boolean isCatCard;
 
     //Description of what the card does
     public String description;
 
     //set card info in this constructor
-    public Card(Context context, int id, cardType type) {
+    public Card(Context context, cardType type) {
         super(context);
-        ID = id;
         cardType = type;
+
         //button = onScreenButton;
 
         isPlayable = false;
         isSelected = false;
         isOnScreen = false;
+        isCatCard = false;
     }
 
 }

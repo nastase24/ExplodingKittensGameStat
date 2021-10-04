@@ -1,12 +1,15 @@
 package com.example.explodingkittensgamestat;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 
 public class ExplodingKittensGameState {
 
 
     public ArrayList<ArrayList<Card>> playerHand;
-
+    public ArrayList<Card> discard;
+    public ArrayList<Card> draw;
 
 
     //default constructor
@@ -18,7 +21,33 @@ public class ExplodingKittensGameState {
     public ExplodingKittensGameState(ExplodingKittensGameState state){
 
     }
-    public void createCards(){
+    public void createCards(Context context){
+        Card explode1 = new Card(context, Card.cardType.EXPLODE);
+        Card explode2 = new Card(context, Card.cardType.EXPLODE);
+        Card explode3 = new Card(context, Card.cardType.EXPLODE);
+
+        Card defuse1 = new Card(context, Card.cardType.DEFUSE);
+        Card defuse2 = new Card(context, Card.cardType.DEFUSE);
+        Card defuse3 = new Card(context, Card.cardType.DEFUSE);
+        Card defuse4 = new Card(context, Card.cardType.DEFUSE);
+        Card defuse5 = new Card(context, Card.cardType.DEFUSE);
+        Card defuse6 = new Card(context, Card.cardType.DEFUSE);
+
+        Card attack1 = new Card(context, Card.cardType.ATTACK);
+        Card attack2 = new Card(context, Card.cardType.ATTACK);
+        Card attack3 = new Card(context, Card.cardType.ATTACK);
+        Card attack4 = new Card(context, Card.cardType.ATTACK);
+
+        Card favor1 = new Card(context, Card.cardType.FAVOR);
+        Card favor2 = new Card(context, Card.cardType.FAVOR);
+        Card favor3 = new Card(context, Card.cardType.FAVOR);
+        Card favor4 = new Card(context, Card.cardType.FAVOR);
+
+        Card nope1 = new Card(context, Card.cardType.NOPE);
+        Card nope2 = new Card(context, Card.cardType.NOPE);
+        Card nope3 = new Card(context, Card.cardType.NOPE);
+        Card nope4 = new Card(context, Card.cardType.NOPE);
+        Card nope5 = new Card(context, Card.cardType.NOPE);
 
     }
 }

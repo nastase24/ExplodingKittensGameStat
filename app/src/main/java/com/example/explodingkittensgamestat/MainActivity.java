@@ -9,8 +9,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     //these are for every player, so only one instance should be created
-    public ArrayList<Card> discard;
-    public ArrayList<Card> draw;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
