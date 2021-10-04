@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 
 import java.util.ArrayList;
 
@@ -11,12 +12,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //these are for every player, so only one instance should be created
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
     }
 

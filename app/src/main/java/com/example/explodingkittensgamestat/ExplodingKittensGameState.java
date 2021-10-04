@@ -19,12 +19,18 @@ public class ExplodingKittensGameState {
 
     //default constructor
     public ExplodingKittensGameState(){
-
+        // Assign variables as normal
+        // Create totally normal constructor
     }
 
     //deep copy constructor
     public ExplodingKittensGameState(ExplodingKittensGameState state){
+        // With objects, need to use "new" keyword to
+        // assign new memory
 
+        // this.x = p.x;
+        //this.y = p.y;
+        //this.address = new address(p.address); // deep copy
     }
 
     public void createCards(Context context){
