@@ -11,6 +11,21 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton{
 
     private final Object cardType;
 
+    /**
+     * DECK for 4 players, 56 cards TOTAL
+     * 4 exploders
+     * 6 diffuse
+     * 4 attack
+     * 4 favor
+     * 5 nope cards
+     * 4 shuffle
+     * 4 skip
+     * 5 see the future
+     * 4 melon
+     * 4 beard
+     * 4 potato
+     * 4 taco
+     */
     public enum cardType{
         MELON,
         BEARD,
@@ -25,8 +40,6 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton{
         NOPE,
         DEFUSE,
         EXPLODE
-
-
     }
 
 
@@ -46,19 +59,15 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton{
     public String description;
 
     //set card info in this constructor
-    public Card(Context context, int id, cardType type, ImageButton onScreenButton) {
+    public Card(Context context, int id, cardType type) {
         super(context);
         ID = id;
         cardType = type;
-        button = onScreenButton;
+        //button = onScreenButton;
 
         isPlayable = false;
         isSelected = false;
         isOnScreen = false;
     }
-
-
-
-
 
 }

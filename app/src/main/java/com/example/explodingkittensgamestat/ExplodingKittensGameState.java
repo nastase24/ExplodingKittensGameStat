@@ -9,14 +9,6 @@ public class ExplodingKittensGameState {
 
 
 
-    public void Player(){
-        String ID;
-        ArrayList<Card> deck;
-        boolean inGame;
-        boolean isTurn;
-
-    }
-
     //default constructor
     public ExplodingKittensGameState(){
 
@@ -24,6 +16,9 @@ public class ExplodingKittensGameState {
 
     //deep copy constructor
     public ExplodingKittensGameState(ExplodingKittensGameState state){
+
+    }
+    public void createCards(){
 
     }
 }
