@@ -7,9 +7,19 @@ import android.widget.ImageButton;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class Card extends androidx.appcompat.widget.AppCompatImageButton{
+/**
+ * Card: Creates a class that allows all card types to be assigned and executed accordingly
+ * @author Anna Yrjanson
+ * @author Audrey Sauter
+ * @author Claire Porter
+ * @author Alex Nastase
+ */
 
-    private final Object cardType;
+// TODO: Assign cards image ID so that it doesn't have to be an image button
+
+public class Card {
+
+    private final CARDTYPE cardType;
 
     /**
      * DECK for 4 players, 52 cards TOTAL
@@ -26,21 +36,6 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton{
      * 4 potato
      * 4 taco
      */
-
-    public enum cardType{
-        MELON,
-        BEARD,
-        POTATO,
-        TACO,
-        ATTACK,
-        SHUFFLE,
-        FAVOR,
-        SKIP,
-        SEEFUTURE,
-        NOPE,
-        DEFUSE,
-        EXPLODE
-    }
 
 
     //Unique ID for each specific card
@@ -60,8 +55,7 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton{
     public String description;
 
     //set card info in this constructor
-    public Card(Context context, cardType type) {
-        super(context);
+public Card(CARDTYPE type) {
         cardType = type;
         //button = onScreenButton;
 
@@ -69,5 +63,10 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton{
         isSelected = false;
         isOnScreen = false;
         isCatCard = false;
+    }
+
+    // Copy constructor
+    public Card(Card oldCard) {
+
     }
 }

@@ -7,8 +7,12 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
- * Exploding Kittens Game State
- * @author annayrjanson
+ * ExplodingKittensGameState: Creates the decks and assigns and moves cards according to player
+ * actions
+ * @author Anna Yrjanson
+ * @author Audrey Sauter
+ * @author Claire Porter
+ * @author Alex Nastase
  */
 
 public class ExplodingKittensGameState extends Hashtable{
@@ -18,51 +22,54 @@ public class ExplodingKittensGameState extends Hashtable{
     public ArrayList<Card> discard;
     public ArrayList<Card> draw;
 
-    public static final int MELON = 16536;
-    public static final int BEARD = 16552;
-    public static final int POTATO = 16547;
-    public static final int TACO = 16538;
-    public static final int ATTACK = 16550;
-    public static final int SHUFFLE = 16544;
-    public static final int FAVOR = 16542;
-    public static final int SKIP = 16540;
-    public static final int SEEFUTURE = 16555;
-    public static final int NOPE = 16557;
-    public static final int DEFUSE = 16559;
-    public static final int EXPLODE = 16561;
-
-    Hashtable<Integer,String> ht1 = new Hashtable();
+    Hashtable<CARDTYPE,String> ht1 = new Hashtable();
 
 
-
-
+    /**
+     * ExplodingKittensGameState: creates the various decks for the players, draw, and discard piles
+     *
+     */
     //default constructor
-    public ExplodingKittensGameState(ArrayList<ArrayList<Card>> playerHand, ArrayList<Card> discard, ArrayList<Card> draw){
-        this.playerHand = playerHand;
-        this.discard = discard;
+    public ExplodingKittensGameState(){
+        this.playerHand = new ArrayList<ArrayList<Card>>()playerHand;
+        this.discard = new discard;
         this.draw = draw;
         // Assign variables as normal
         // Create totally normal constructor
     }
 
+    /**
+     * ExplodingKittensGameState Deep Copy
+     * @param state: the
+     */
     //deep copy constructor
     public ExplodingKittensGameState(ExplodingKittensGameState state){
         // Check if this actually assigns new memory or not - ask Tribelhorn
+        // This may be just a reassignment
         this.playerHand.addAll(state.playerHand);
         for (int i = 0; i < playerHand.size(); i++) {
-            playerHand.add(new ArrayList<Card>(playerHand.get(i)));
+            playerHand.add(new ArrayList<Card>());
+            for (int j = 0; j < state.playerHand.get(i).size(); j++ ) {
+                playerHand.get(i).add( new Card (state.playerHand.get(i).get(j)));
+            }
         }
         this.discard.addAll(state.discard);
         this.draw.addAll(state.draw);
     }
 
+    /**
+     * createCards: creates a hashtable with the card types and their enum values, creates card
+     * objects for the number of that type of card in the deck for a four-player game
+     * @param context
+     */
+
     public void createCards(Context context){
         //sets the hash table keys and strings to the card description, and the card ID.
-        ht1.put(MELON,"Cat Cards: tacocat, cattermelon, hairy potato cat, and beard " +
+        ht1.put(CARDTYPE.MELON,"Cat Cards: tacocat, cattermelon, hairy potato cat, and beard " +
                 "cat, must be played in matched pairs, a pair of three allows player to ask for a " +
                 "specific card from another's hand, and a pair of two allows player to ask for a " +
                 "random card from another's hand.");
-        ht1.put(BEARD,"Cat Cards: tacocat, cattermelon, hairy potato cat, and beard " +
+        ht1.put(CARDTYPE.BEARD,"Cat Cards: tacocat, cattermelon, hairy potato cat, and beard " +
                 "cat, must be played in matched pairs, a pair of three allows player to ask for a " +
                 "specific card from another's hand, and a pair of two allows player to ask for a " +
                 "random card from another's hand.");
@@ -150,53 +157,170 @@ public class ExplodingKittensGameState extends Hashtable{
         Card taco4 = new Card(context, Card.cardType.TACO);
     }
 
-    boolean playCard(boolean isValid) {
+    /**
+     * playCard:
+     * @param isValid
+     * @return
+     */
+
+    boolean playCard() {
+        if () {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * drawCard: determines which card type was drawn, accordingly defuses exploding kittens or
+     * eliminates player if appropriate
+     * @return if card was drawn and actions executed legally
+     */
+    boolean drawCard() {
+        if () {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * defuse: defuses exploding kittens when drawn
+     * @return if defuse executed legally
+     */
+    boolean defuse() {
         if (/* Something */) {
             return true;
         }
         return false;
     }
-    boolean drawCard() {
-        return false;
-    }
-    boolean defuse() {
-        return false;
-    }
+
+    /**
+     * attack: forces next player to play two turns, current player need not draw card
+     * @return if attack executed legally
+     */
     boolean attack() {
+        if (/* Something */) {
+            return true;
+        }
         return false;
     }
+
+    /**
+     * skip: skips current player's turn without drawing card
+     * @return if skip executed legally
+     */
     boolean skip() {
+        if (/* Something */) {
+            return true;
+        }
         return false;
     }
+
+    /**
+     * seeFuture: allows player to look at top three draw pile cards
+     * @return if see the future executed legally
+     */
     boolean seeFuture() {
+        if (/* Something */) {
+            return true;
+        }
         return false;
     }
+
+    /**
+     * Shuffle: shuffles the draw pile cards
+     * @return if shuffle executed legally
+     */
     boolean shuffle() {
+        if (/* Something */) {
+            return true;
+        }
         return false;
     }
+
+    /**
+     * favor: forces another player to give you one card from their hand
+     * @return if favor executed legally
+     */
     boolean favor() {
+        if (/* Something */) {
+            return true;
+        }
         return false;
     }
+
+    /**
+     * nope: stops an action before it is executed
+     * @return if nope executed legally
+     */
     boolean nope() {
+        if (/* Something */) {
+            return true;
+        }
         return false;
     }
+
+    /**
+     * twoOfKind: determines if two cat cards are the same type, player can steal a random card from
+     * another player
+     * @return if two of a kind executed legally
+     */
     boolean twoOfKind() {
+        if (/* Something */) {
+            return true;
+        }
         return false;
     }
+
+    /**
+     * threeOfKind: determines if three matching cards, player can ask player for specific type of
+     * card
+     * @return if three of a kind executed legally
+     */
     boolean threeOfKind() {
+        if (/* Something */) {
+            return true;
+        }
         return false;
     }
+
+    /**
+     * playFive: determines if all five selected cards are different, allows player to take card
+     * from discard pile
+     * @return if five of a kind executed legally
+     */
     boolean playFive() {
+        if (/* Something */) {
+            return true;
+        }
         return false;
     }
+
+    /**
+     * restartGame: restarts the game at the original game state
+     * @return if return executed legally
+     */
     boolean restartGame() {
+        if (/* Something */) {
+            return true;
+        }
         return false;
     }
+
+    /**
+     * quitGame: returns to the main screen
+     * @return if quit game executed correctly
+     */
     boolean quitGame() {
+        if (/* Something */) {
+            return true;
+        }
         return false;
     }
 
-
+    /**
+     * toString: prints a string of all variables in instance to EditText
+     * @return String of the various components
+     */
     @Override
     public String toString() {
         return playerHand + " " + discard + " " + draw;
