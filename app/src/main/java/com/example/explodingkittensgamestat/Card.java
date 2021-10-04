@@ -64,7 +64,6 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton{
     public Card(Context context, cardType type) {
         super(context);
         cardType = type;
-
         //button = onScreenButton;
 
         isPlayable = false;
