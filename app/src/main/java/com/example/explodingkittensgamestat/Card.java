@@ -19,6 +19,7 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton{
      * 4 favor
      * 5 nope cards
      * 4 shuffle
+     *
      * 4 skip
      * 5 see the future
      * 4 melon
@@ -26,6 +27,7 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton{
      * 4 potato
      * 4 taco
      */
+
     public enum cardType{
         MELON,
         BEARD,
