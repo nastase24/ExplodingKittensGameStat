@@ -33,7 +33,6 @@ public class Card extends androidx.appcompat.widget.AppCompatImageButton{
         BEARD,
         POTATO,
         TACO,
-        FERAL,
         ATTACK,
         SHUFFLE,
         FAVOR,

@@ -4,6 +4,11 @@ import android.content.Context;
 
 import java.util.ArrayList;
 
+/**
+ * Exploding Kittens Game State
+ * @author annayrjanson
+ */
+
 public class ExplodingKittensGameState {
 
 
@@ -21,6 +26,7 @@ public class ExplodingKittensGameState {
     public ExplodingKittensGameState(ExplodingKittensGameState state){
 
     }
+
     public void createCards(Context context){
         Card explode1 = new Card(context, Card.cardType.EXPLODE);
         Card explode2 = new Card(context, Card.cardType.EXPLODE);
