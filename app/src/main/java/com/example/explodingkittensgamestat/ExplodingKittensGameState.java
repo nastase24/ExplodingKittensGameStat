@@ -78,7 +78,6 @@ public class ExplodingKittensGameState extends Hashtable{
         //sets the hash table keys and strings to the card description, and the card ID.
 
 
-
         //TODO: ADD in card ID and description to the constructor
         for(int i = 0; i < 4; i++){
             draw.add(new Card(CARDTYPE.ATTACK));
