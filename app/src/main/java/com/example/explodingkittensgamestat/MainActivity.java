@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Context context = this;
+    //Context context = this;
 
     /**
      * onCreate: creates the initial view of the game on the device
