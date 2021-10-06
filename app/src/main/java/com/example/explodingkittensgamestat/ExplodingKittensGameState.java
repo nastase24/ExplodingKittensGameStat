@@ -2,7 +2,6 @@ package com.example.explodingkittensgamestat;
 
 import android.content.Context;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -17,7 +16,7 @@ import java.util.Hashtable;
 
 public class ExplodingKittensGameState extends Hashtable{
 
-    public ArrayList<ArrayList<Card>> playerHand;
+    public ArrayList<ArrayList<Card>> deck;
     public ArrayList<Card> discard;
     public ArrayList<Card> draw;
 
@@ -29,13 +28,13 @@ public class ExplodingKittensGameState extends Hashtable{
      */
     //default constructor
     public ExplodingKittensGameState(int numPlayers){
-        this.playerHand = new ArrayList<ArrayList<Card>>(6);
+        this.deck = new ArrayList<ArrayList<Card>>(6);
         this.draw = new ArrayList<Card>(52);
         this.discard = new ArrayList<Card>(52);
-        playerHand.add(draw);
-        playerHand.add(discard);
+        deck.add(draw);
+        deck.add(discard);
         for(int i = 0; i < numPlayers; i++){
-            playerHand.add(new ArrayList<Card>(7));
+            deck.add(new ArrayList<Card>(7));
         }
     }
 
@@ -55,13 +54,13 @@ public class ExplodingKittensGameState extends Hashtable{
             discard.add(state.discard.get(i));
         }
 
-        playerHand = new ArrayList<ArrayList<Card>>(6);
-        playerHand.add(draw);
-        playerHand.add(discard);
-        for (int i = 2; i < state.playerHand.size(); i++) {
-            playerHand.add(new ArrayList<Card>(7));
-            for (int j = 0; j < state.playerHand.get(i).size(); j++ ) {
-                playerHand.get(i).add(new Card(state.playerHand.get(i).get(j)));
+        deck = new ArrayList<ArrayList<Card>>(6);
+        deck.add(draw);
+        deck.add(discard);
+        for (int i = 2; i < state.deck.size(); i++) {
+            deck.add(new ArrayList<Card>(7));
+            for (int j = 0; j < state.deck.get(i).size(); j++ ) {
+                deck.get(i).add(new Card(state.deck.get(i).get(j)));
             }
         }
     }
@@ -99,7 +98,6 @@ public class ExplodingKittensGameState extends Hashtable{
         ht1.put(CARDTYPE.DEFUSE, "Defuse: allows the player to continue playing after drawing an Exploding Kitten.");
         ht1.put(CARDTYPE.EXPLODE, "Exploding Kitten: a player loses when they draw this card, unless they have Defuse " +
                 "is discarded and the Exploding Kitten placed back into the deck.\n");
-
 
         //TODO: ADD in card ID and description to the constructor
         Card explode1 = new Card(CARDTYPE.EXPLODE);
@@ -164,7 +162,6 @@ public class ExplodingKittensGameState extends Hashtable{
         Card taco2 = new Card(CARDTYPE.TACO);
         Card taco3 = new Card(CARDTYPE.TACO);
         Card taco4 = new Card(CARDTYPE.TACO);
-
     }
 
     /**
@@ -333,6 +330,6 @@ public class ExplodingKittensGameState extends Hashtable{
      */
     @Override
     public String toString() {
-        return playerHand + " " + discard + " " + draw;
+        return deck + " " + discard + " " + draw;
     }
 }
