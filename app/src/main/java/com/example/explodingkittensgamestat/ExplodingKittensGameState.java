@@ -57,10 +57,10 @@ public class ExplodingKittensGameState extends Hashtable{
             discard.add(state.discard.get(i));
         }
 
-        deck = new ArrayList<ArrayList<Card>>(6);
+        deck = new ArrayList<ArrayList<Card>>(4);
         deck.add(draw);
         deck.add(discard);
-        for (int i = 2; i < state.deck.size(); i++) {
+        for (int i = 0; i < state.deck.size(); i++) {
             deck.add(new ArrayList<Card>(7));
             for (int j = 0; j < state.deck.get(i).size(); j++ ) {
                 deck.get(i).add(new Card(state.deck.get(i).get(j)));
@@ -91,6 +91,7 @@ public class ExplodingKittensGameState extends Hashtable{
             draw.add(new Card(CARDTYPE.TACO));
             draw.add(new Card(CARDTYPE.POTATO));
         }
+
         draw.add(new Card(CARDTYPE.EXPLODE));
         draw.add(new Card(CARDTYPE.EXPLODE));
         draw.add(new Card(CARDTYPE.EXPLODE));
