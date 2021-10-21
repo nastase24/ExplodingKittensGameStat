@@ -18,6 +18,8 @@ public class ExplodingKittensGameState {
     public ArrayList<Card> discard;
     public ArrayList<Card> draw;
     public STATE gameState = STATE.PROGRAM_LAUNCHED;
+    //TODO player ticker, start game funct, end game funct, start turn funct
+
     public static final int NUM_PLAYERS = 4;
 
     /**
@@ -99,16 +101,6 @@ public class ExplodingKittensGameState {
 
         gameState = STATE.INIT_OBJECTS;
     }
-/*
-    public boolean playCard(ArrayList<Card> src, ArrayList<Card> dest, Card card){
-        CARDTYPE type = card.getType();
-        switch(type){
-
-        }
-        return false;
-    }
-
- */
 
     /**
      * PrepareGame: calls createCards(), and then shuffles the draw pile. Iterates through the 4 player hands in
@@ -157,6 +149,38 @@ public class ExplodingKittensGameState {
             dest.add(card);
             src.remove(card);
             return true;
+        }
+        return false;
+    }
+//TODO test each playcard
+    public boolean playCard(Card card, ArrayList<Card> src, ArrayList<Card> dest){
+        CARDTYPE type = card.getType();
+        switch(type){
+            case MELON:
+            case BEARD:
+            case POTATO:
+            case TACO:
+                if(move(card,src,dest)){
+                    return true;
+                }
+                break;
+            case ATTACK:
+                break;
+            case SHUFFLE:
+                Collections.shuffle(this.draw);
+                break;
+            case FAVOR:
+                break;
+            case SKIP:
+                break;
+            case SEEFUTURE:
+                break;
+            case NOPE:
+                break;
+            case DEFUSE:
+                break;
+            case EXPLODE:
+                break;
         }
         return false;
     }
