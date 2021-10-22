@@ -22,11 +22,16 @@ public class ExplodingKittensGameState {
     public ArrayList<ArrayList<Card>> deck;
     public ArrayList<Card> discard;
     public ArrayList<Card> draw;
+    public boolean[] playerStatus;
     public STATE gameState = STATE.PROGRAM_LAUNCHED;
     //TODO player ticker, start game funct, end game funct, start turn funct
 
     public static final int NUM_PLAYERS = 4;
-    public int[] playerTurn;
+    public int playerTurn;
+    public static final int DRAWCARD = 4000;
+    public static final int SKIPTURN = 4001;
+    public static final int ATTACKPLAYER = 4002;
+    public static final int LOST = 4003;
 
     /**
      * ExplodingKittensGameState: creates the various decks for the players, draw, and discard piles
@@ -37,6 +42,8 @@ public class ExplodingKittensGameState {
         this.deck = new ArrayList<ArrayList<Card>>(NUM_PLAYERS);
         this.draw = new ArrayList<Card>(52);
         this.discard = new ArrayList<Card>(52);
+        this.playerTurn = 0;
+        this.playerStatus = new boolean[] {true, true, true, true};
         for(int i = 0; i< size; i++){
             this.deck.add(new ArrayList<Card>(7));
         }
@@ -49,7 +56,7 @@ public class ExplodingKittensGameState {
      */
     //deep copy constructor
     public ExplodingKittensGameState(ExplodingKittensGameState state){
-        playerTurn = new int[4];
+        playerTurn = 0;
 
         draw = new ArrayList<Card>();
         for (int i = 0; i < state.draw.size(); i++) {
@@ -70,6 +77,8 @@ public class ExplodingKittensGameState {
                 deck.get(i).add(new Card(state.deck.get(i).get(j)));
             }
         }
+
+        this.playerStatus = state.playerStatus;
     }
 
     /**
@@ -80,6 +89,7 @@ public class ExplodingKittensGameState {
 
     public void createCards() {
         //sets the hash table keys and strings to the card description, and the card ID.
+        this.draw.add(new Card(CARDTYPE.EXPLODE));
         for(int i = 0; i < 4; i++){
             this.draw.add(new Card(CARDTYPE.ATTACK));
             this.draw.add(new Card(CARDTYPE.FAVOR));
@@ -93,7 +103,7 @@ public class ExplodingKittensGameState {
             this.draw.add(new Card(CARDTYPE.POTATO));
         }
 
-        this.draw.add(new Card(CARDTYPE.EXPLODE));
+
         this.draw.add(new Card(CARDTYPE.EXPLODE));
         this.draw.add(new Card(CARDTYPE.EXPLODE));
 
@@ -115,7 +125,7 @@ public class ExplodingKittensGameState {
      */
     public void prepareGame(){
         createCards();
-        Collections.shuffle(this.draw);
+        //Collections.shuffle(this.draw);
         //iterates through the 4
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 6; j++){
@@ -130,14 +140,46 @@ public class ExplodingKittensGameState {
         gameState = STATE.GAME_SETUP;
     }
 
+    public void startGame(){
+        gameState = STATE.MAIN_PLAY;
+    }
+
+    public boolean takeTurn(int playerIndex){
+        for(Card card: deck.get(playerIndex)){
+            card.isPlayable = true;
+        }
+        return true;
+    }
+
+    public boolean endTurn(int playerIndex, int reason){
+        switch(reason){
+            case DRAWCARD:
+                if(draw.get(0).getType() == CARDTYPE.EXPLODE){
+
+                }
+                move(draw.get(0),draw,deck.get(playerIndex));
+                for( Card card: deck.get(playerIndex)){
+                    card.isPlayable = false;
+                }
+                break;
+            case SKIPTURN:
+                break;
+            case ATTACKPLAYER:
+                break;
+            case LOST:
+                break;
+        }
+        return false;
+    }
+
     /**
      * ToString: Returns a string including the current gamestate, and the contents of Deck, Draw, and discard arrayLists
      * @return - returns said string
      **/
     @Override
     public String toString(){
-        String string = "Game State: " + gameState.name()
-                +"\n############\n"+ "DECK: \n" + this.deck.toString() +
+        String string = "Game State: " + gameState.name() + "\n" + "Current Player #: " +
+                this.playerTurn + "\n############\n"+ "DECK: \n" + this.deck.toString() +
                 "\nDRAW: \n" + this.draw.toString() + "\nDISCARD: \n" + this.discard.toString();
         return string;
     }
@@ -191,13 +233,25 @@ public class ExplodingKittensGameState {
         return false;
     }
 
+    public Card getCard(CARDTYPE type, ArrayList<Card> src){
+        Card card = null;
+        for(Card cards: src){
+            if(card.getType() == type){
+                return card;
+            }
+        }
+        return card;
+    }
+
     public int nextPlayer(int currentPlayer) {
         if (currentPlayer == 3) {
             currentPlayer = 0;
         }
+
         else currentPlayer++;
 
         if (checkIfValid(currentPlayer)) {
+            playerTurn = currentPlayer;
             return currentPlayer;
         }
         else return nextPlayer(currentPlayer);
@@ -206,5 +260,17 @@ public class ExplodingKittensGameState {
     public boolean checkIfValid(int currentPlayer) {
         if (deck.get(currentPlayer) != null) return true;
         else return false;
+    }
+
+    public boolean endGame(boolean[] playerStatus){
+        int out = 0;
+        for(int i = 0; i < playerStatus.length; i++){
+            if(playerStatus[i] == false) {
+                out++;
+            }
+        }
+        if(out == 3){return true;}
+        gameState = STATE.GAME_END;
+        return false;
     }
 }
