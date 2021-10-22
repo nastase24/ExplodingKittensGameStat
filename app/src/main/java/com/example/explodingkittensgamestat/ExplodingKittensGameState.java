@@ -1,7 +1,12 @@
 package com.example.explodingkittensgamestat;
 
+import android.content.Context;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Hashtable;
+import java.util.LinkedList;
 
 /**
  * ExplodingKittensGameState: Creates the decks and assigns and moves cards according to player
@@ -21,6 +26,7 @@ public class ExplodingKittensGameState {
     //TODO player ticker, start game funct, end game funct, start turn funct
 
     public static final int NUM_PLAYERS = 4;
+    public int[] playerTurn;
 
     /**
      * ExplodingKittensGameState: creates the various decks for the players, draw, and discard piles
@@ -43,6 +49,8 @@ public class ExplodingKittensGameState {
      */
     //deep copy constructor
     public ExplodingKittensGameState(ExplodingKittensGameState state){
+        playerTurn = new int[4];
+
         draw = new ArrayList<Card>();
         for (int i = 0; i < state.draw.size(); i++) {
             draw.add(state.draw.get(i));
@@ -72,8 +80,6 @@ public class ExplodingKittensGameState {
 
     public void createCards() {
         //sets the hash table keys and strings to the card description, and the card ID.
-
-
         for(int i = 0; i < 4; i++){
             this.draw.add(new Card(CARDTYPE.ATTACK));
             this.draw.add(new Card(CARDTYPE.FAVOR));
@@ -127,7 +133,7 @@ public class ExplodingKittensGameState {
     /**
      * ToString: Returns a string including the current gamestate, and the contents of Deck, Draw, and discard arrayLists
      * @return - returns said string
-     *      */
+     **/
     @Override
     public String toString(){
         String string = "Game State: " + gameState.name()
@@ -135,7 +141,6 @@ public class ExplodingKittensGameState {
                 "\nDRAW: \n" + this.draw.toString() + "\nDISCARD: \n" + this.discard.toString();
         return string;
     }
-
 
     /**
      * Move: Moves the card from src to dest iff it exists in src
@@ -152,6 +157,7 @@ public class ExplodingKittensGameState {
         }
         return false;
     }
+
 //TODO test each playcard
     public boolean playCard(Card card, ArrayList<Card> src, ArrayList<Card> dest){
         CARDTYPE type = card.getType();
@@ -185,5 +191,20 @@ public class ExplodingKittensGameState {
         return false;
     }
 
-}
+    public int nextPlayer(int currentPlayer) {
+        if (currentPlayer == 3) {
+            currentPlayer = 0;
+        }
+        else currentPlayer++;
 
+        if (checkIfValid(currentPlayer)) {
+            return currentPlayer;
+        }
+        else return nextPlayer(currentPlayer);
+    }
+
+    public boolean checkIfValid(int currentPlayer) {
+        if (deck.get(currentPlayer) != null) return true;
+        else return false;
+    }
+}
