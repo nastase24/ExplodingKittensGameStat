@@ -151,25 +151,36 @@ public class ExplodingKittensGameState {
         return true;
     }
 
-    public boolean endTurn(int playerIndex, int reason){
+    public void endTurn(int playerIndex, int reason){
         switch(reason){
             case DRAWCARD:
-                if(draw.get(0).getType() == CARDTYPE.EXPLODE){
-
-                }
-                move(draw.get(0),draw,deck.get(playerIndex));
+                Card temp = draw.get(0);
+                move(temp,draw,deck.get(playerIndex));
                 for( Card card: deck.get(playerIndex)){
                     card.isPlayable = false;
                 }
+                //Tests if the drawn card is explode
+                if(temp.getType() == CARDTYPE.EXPLODE){
+                    playCard(playerIndex, getCard(CARDTYPE.DEFUSE,deck.get(playerIndex)),deck.get(playerIndex),discard);
+                }
+                //takeTurn(nextPlayer(playerIndex));
                 break;
             case SKIPTURN:
+                for( Card card: deck.get(playerIndex)){
+                    card.isPlayable = false;
+                }
+                //takeTurn(nextPlayer(playerIndex));
                 break;
             case ATTACKPLAYER:
                 break;
             case LOST:
+                for(Card card: deck.get(playerIndex)){
+                    move(card, deck.get(playerIndex),discard);
+                }
+                playerStatus[playerIndex] = false;
+                //takeTurn(nextPlayer(playerIndex));
                 break;
         }
-        return false;
     }
 
     /**
@@ -201,7 +212,7 @@ public class ExplodingKittensGameState {
     }
 
 //TODO test each playcard
-    public boolean playCard(Card card, ArrayList<Card> src, ArrayList<Card> dest){
+    public boolean playCard(int playerTurn, Card card, ArrayList<Card> src, ArrayList<Card> dest){
         CARDTYPE type = card.getType();
         switch(type){
             case MELON:
@@ -215,7 +226,10 @@ public class ExplodingKittensGameState {
             case ATTACK:
                 break;
             case SHUFFLE:
-                Collections.shuffle(this.draw);
+                if(move(card,src,dest)) {
+                    Collections.shuffle(this.draw);
+                    return true;
+                }
                 break;
             case FAVOR:
                 break;
@@ -226,7 +240,13 @@ public class ExplodingKittensGameState {
             case NOPE:
                 break;
             case DEFUSE:
-                break;
+                if(move(card,src,dest) && move(getCard(CARDTYPE.EXPLODE,src),src,dest)) {
+                    return true;
+                }
+                else{
+                    endTurn(playerTurn, LOST);
+                    return false;
+                }
             case EXPLODE:
                 break;
         }
