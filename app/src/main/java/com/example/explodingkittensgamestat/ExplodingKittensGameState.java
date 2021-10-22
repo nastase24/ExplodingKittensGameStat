@@ -156,7 +156,8 @@ public class ExplodingKittensGameState {
     }
 
     public void lolz(){
-        move(getCard(CARDTYPE.EXPLODE,draw),draw,deck.get(playerTurn));
+       // move(getCard(CARDTYPE.EXPLODE,draw),draw,deck.get(playerTurn));
+        draw.add(0,new Card(CARDTYPE.EXPLODE));
     }
 
     public void endTurn(int playerTurn, int reason){
@@ -164,23 +165,19 @@ public class ExplodingKittensGameState {
             case DRAWCARD:
                 Card temp = draw.get(0);
                 move(temp,draw,deck.get(playerTurn));
-                for( Card card: deck.get(playerTurn)){
-                    card.isPlayable = false;
-
-                    }
-
+              //  for( Card card: deck.get(playerTurn)){
+              //      card.isPlayable = false;
+               //     }
+                if(temp.getType() == CARDTYPE.EXPLODE){
+                    playCard(playerTurn, getCard(CARDTYPE.DEFUSE,deck.get(playerTurn)) , deck.get(playerTurn) ,discard);
                 }
                 //Tests if the drawn card is explode
-               if(deck.get(playerTurn).(CARDTYPE.EXPLODE)){
-                //    playCard(playerTurn, getCard(CARDTYPE.DEFUSE,deck.get(playerTurn)) , deck.get(playerTurn) ,discard);
-               // }
-                //takeTurn(nextPlayer(playerTurn));
                 break;
             case SKIPTURN:
                 for( Card card: deck.get(playerTurn)){
                     card.isPlayable = false;
                 }
-                //takeTurn(nextPlayer(playerTurn));
+
                 break;
             case ATTACKPLAYER:
                 break;
@@ -234,6 +231,7 @@ public class ExplodingKittensGameState {
 
 //TODO test each playcard
     public boolean playCard(int playerTurn, Card card, ArrayList<Card> src, ArrayList<Card> dest){
+        Card temp = new Card(CARDTYPE.EXPLODE);
         CARDTYPE type = card.getType();
         switch(type){
             case MELON:
@@ -264,8 +262,13 @@ public class ExplodingKittensGameState {
             case NOPE:
                 break;
             case DEFUSE:
-                if(move(card,src,dest) && move(getCard(CARDTYPE.EXPLODE,src),src,dest)) {
+                if(deck.get(playerTurn).contains(card) && deck.get(playerTurn).contains(temp)){
+                    move(card,src,dest) ;
+                    move(getCard(CARDTYPE.EXPLODE,src),src,dest);
                     return true;
+                }
+                else if(deck.get(playerTurn).contains(card) && !(deck.get(playerTurn).contains(temp))) {
+                    return false;
                 }
                 else{
                     endTurn(playerTurn, LOST);

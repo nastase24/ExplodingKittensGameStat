@@ -75,7 +75,8 @@ import java.util.Collections;
             //Card defuse = new Card(CARDTYPE.DEFUSE);
 
             //ins.playCard(ins.playerTurn, defuse, ins.deck.get(ins.playerTurn), ins.discard);
-            ins.lolz();
+          //  ins.lolz();
+
             ins.endTurn(ins.playerTurn, 4000);
             textBox.append(ins.toString());
             ins.nextPlayer(ins.playerTurn);
