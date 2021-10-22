@@ -21,6 +21,7 @@ import java.util.Hashtable;
 public class Card extends Hashtable {
 
     private CARDTYPE cardType;
+
     Hashtable<CARDTYPE,String> ht1 = new Hashtable();
 
 
@@ -103,7 +104,7 @@ public Card(CARDTYPE type) {
         isCatCard = oldCard.isCatCard;
         canPlayIfNope = oldCard.canPlayIfNope;
     }
-//FIXME: crashes
+
     public String toString(){
         //return "Type: " + cardType.name() + " Is catCard: "+ isCatCard + "\n";
         return cardType.name();
