@@ -89,7 +89,8 @@ public class ExplodingKittensGameState {
 
     public void createCards() {
         //sets the hash table keys and strings to the card description, and the card ID.
-        this.draw.add(new Card(CARDTYPE.EXPLODE));
+
+
         for(int i = 0; i < 4; i++){
             this.draw.add(new Card(CARDTYPE.ATTACK));
             this.draw.add(new Card(CARDTYPE.FAVOR));
@@ -103,7 +104,7 @@ public class ExplodingKittensGameState {
             this.draw.add(new Card(CARDTYPE.POTATO));
         }
 
-
+        this.draw.add(new Card(CARDTYPE.EXPLODE));
         this.draw.add(new Card(CARDTYPE.EXPLODE));
         this.draw.add(new Card(CARDTYPE.EXPLODE));
 
@@ -125,8 +126,8 @@ public class ExplodingKittensGameState {
      */
     public void prepareGame(){
         createCards();
+
         //Collections.shuffle(this.draw);
-        //iterates through the 4
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 6; j++){
                 //FIXME: make sure this gets every deck 7 cards even if there is double explode in draw
@@ -137,6 +138,7 @@ public class ExplodingKittensGameState {
                 }
             }
         }
+
         gameState = STATE.GAME_SETUP;
     }
 
@@ -155,7 +157,7 @@ public class ExplodingKittensGameState {
         switch(reason){
             case DRAWCARD:
                 Card temp = draw.get(0);
-                move(temp,draw,deck.get(playerIndex));
+                move(draw.get(0),draw,deck.get(playerIndex));
                 for( Card card: deck.get(playerIndex)){
                     card.isPlayable = false;
                 }
@@ -213,6 +215,9 @@ public class ExplodingKittensGameState {
 
 //TODO test each playcard
     public boolean playCard(int playerTurn, Card card, ArrayList<Card> src, ArrayList<Card> dest){
+        if(card == null){
+            return false;
+        }
         CARDTYPE type = card.getType();
         switch(type){
             case MELON:
@@ -234,6 +239,10 @@ public class ExplodingKittensGameState {
             case FAVOR:
                 break;
             case SKIP:
+                if(move(card,src,dest)){
+                    endTurn(playerTurn,SKIPTURN);
+                    return true;
+                }
                 break;
             case SEEFUTURE:
                 break;
@@ -253,14 +262,15 @@ public class ExplodingKittensGameState {
         return false;
     }
 
+
+
     public Card getCard(CARDTYPE type, ArrayList<Card> src){
-        Card card = null;
         for(Card cards: src){
-            if(card.getType() == type){
-                return card;
+            if(cards.getType() == type){
+                return cards;
             }
         }
-        return card;
+        return null;
     }
 
     public int nextPlayer(int currentPlayer) {

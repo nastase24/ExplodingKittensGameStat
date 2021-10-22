@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //editText.setText("Instance: First Instance\n" + firstInstance.toString());
 
         firstInstance.prepareGame();
-
+       // editText.append(firstInstance.toString());
         test(firstInstance, editText);
 
         //creates cards, assigns them to decks, shuffles the draw pile
@@ -102,24 +102,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textBox.append(firstInstance.toString());
 
         firstInstance.takeTurn(0);
-        //Card explode = new Card(CARDTYPE.EXPLODE);
-        //firstInstance.move(explode, firstInstance.draw, firstInstance.deck.get(firstInstance.playerTurn));
+        firstInstance.deck.get(0).add(0,new Card(CARDTYPE.EXPLODE));
         firstInstance.endTurn(0, 4000);
         firstInstance.nextPlayer(firstInstance.playerTurn);
         textBox.append(firstInstance.toString());
 
-        firstInstance.takeTurn(firstInstance.playerTurn);
-        Card skip = new Card(CARDTYPE.SKIP);
-        firstInstance.move(skip, firstInstance.deck.get(firstInstance.playerTurn), firstInstance.discard);
-        firstInstance.endTurn(1, 4000);
+        firstInstance.takeTurn(0);
+        firstInstance.deck.get(0).add(0,new Card(CARDTYPE.SHUFFLE));
+        firstInstance.playCard(0,firstInstance.getCard(CARDTYPE.SHUFFLE,firstInstance.deck.get(0)),firstInstance.deck.get(0),firstInstance.discard);
+        firstInstance.endTurn(0, 4000);
         firstInstance.nextPlayer(firstInstance.playerTurn);
         textBox.append(firstInstance.toString());
 
-        firstInstance.takeTurn(firstInstance.playerTurn);
-        Collections.shuffle(firstInstance.draw);
-        Card shuffle = new Card(CARDTYPE.SHUFFLE);
-        firstInstance.move(shuffle, firstInstance.deck.get(firstInstance.playerTurn), firstInstance.discard);
-        firstInstance.endTurn(2, 4000);
+        firstInstance.takeTurn(0);
+        firstInstance.deck.get(0).add(0,new Card(CARDTYPE.SKIP));
+        firstInstance.playCard(firstInstance.playerTurn,firstInstance.getCard(CARDTYPE.SKIP,firstInstance.deck.get(0)),firstInstance.deck.get(0),firstInstance.discard);
+        firstInstance.endTurn(0, 4000);
+
+        firstInstance.endTurn(0, 4000);
         firstInstance.nextPlayer(firstInstance.playerTurn);
         textBox.append(firstInstance.toString());
         firstInstance.endGame(firstInstance.playerStatus);
