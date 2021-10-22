@@ -105,7 +105,8 @@ public Card(CARDTYPE type) {
     }
 //FIXME: crashes
     public String toString(){
-        return "Type: " + cardType.name() + " Is catCard: "+ isCatCard + "\n";
+        //return "Type: " + cardType.name() + " Is catCard: "+ isCatCard + "\n";
+        return cardType.name();
     }
 
     public CARDTYPE getType(){ return this.cardType; }

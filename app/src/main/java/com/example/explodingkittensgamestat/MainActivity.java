@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
 
 /**
@@ -61,17 +62,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 2. New instance of the game class created - firstInstance
         firstInstance = new ExplodingKittensGameState(ExplodingKittensGameState.NUM_PLAYERS);
+
         //reports contents of arrays and gamestate right after constructor is called
-        editText.setText("Instance: First Instance\n" + firstInstance.toString());
+        //editText.setText("Instance: First Instance\n" + firstInstance.toString());
+
+        firstInstance.prepareGame();
+
+        test(firstInstance, editText);
 
         //creates cards, assigns them to decks, shuffles the draw pile
         //TODO: Right before gameplay starts, shuffle each player hand
-        firstInstance.prepareGame();
-        editText.append("\n****************\n" + "Instance: First Instance\n" + firstInstance.toString());
+
+        //editText.append("\n****************\n" + "Instance: First Instance\n" + firstInstance.toString());
 
         // 3. Assign secondInstance as deep copy of firstInstance
         ExplodingKittensGameState secondInstance = new ExplodingKittensGameState(firstInstance);
-        editText.append("\n****************\n" + "Instance: Second Instance\n" + secondInstance.toString());
+        //editText.append("\n****************\n" + "Instance: Second Instance\n" + secondInstance.toString());
+
 
         // 4. Print out firstInstance to EditText to verify the default constructor sets all values appropriately
         //Tests the information in the firstInstance Game State
@@ -88,5 +95,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // 7. Call toString() method on second and thirdInstance - should be identical printouts
         // Print to the multi-line EditText for visual inspection - append not overwrite previous messages
+    }
+
+    public void test(ExplodingKittensGameState firstInstance, EditText textBox){
+        firstInstance.startGame();
+        textBox.append(firstInstance.toString());
+
+        firstInstance.takeTurn(0);
+        //Card explode = new Card(CARDTYPE.EXPLODE);
+        //firstInstance.move(explode, firstInstance.draw, firstInstance.deck.get(firstInstance.playerTurn));
+        firstInstance.endTurn(0, 4000);
+        firstInstance.nextPlayer(firstInstance.playerTurn);
+        textBox.append(firstInstance.toString());
+
+        firstInstance.takeTurn(firstInstance.playerTurn);
+        Card skip = new Card(CARDTYPE.SKIP);
+        firstInstance.move(skip, firstInstance.deck.get(firstInstance.playerTurn), firstInstance.discard);
+        firstInstance.endTurn(1, 4000);
+        firstInstance.nextPlayer(firstInstance.playerTurn);
+        textBox.append(firstInstance.toString());
+
+        firstInstance.takeTurn(firstInstance.playerTurn);
+        Collections.shuffle(firstInstance.draw);
+        Card shuffle = new Card(CARDTYPE.SHUFFLE);
+        firstInstance.move(shuffle, firstInstance.deck.get(firstInstance.playerTurn), firstInstance.discard);
+        firstInstance.endTurn(2, 4000);
+        firstInstance.nextPlayer(firstInstance.playerTurn);
+        textBox.append(firstInstance.toString());
+        firstInstance.endGame(firstInstance.playerStatus);
     }
 }
