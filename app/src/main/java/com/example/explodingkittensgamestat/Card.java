@@ -1,11 +1,5 @@
 package com.example.explodingkittensgamestat;
 
-import android.content.Context;
-import android.widget.Button;
-import android.widget.ImageButton;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
@@ -39,13 +33,6 @@ public class Card extends Hashtable {
      * 4 potato
      * 4 taco
      */
-
-
-    //Unique ID for each specific card
-    public int ID;
-
-    //Button to link with the Model
-    //public ImageButton button;
 
     //Booleans to track whether a card is selcted and playable, both required to
     //actually play a card
@@ -92,12 +79,28 @@ public Card(CARDTYPE type) {
         isPlayable = false;
         isSelected = false;
         isOnScreen = false;
-        isCatCard = false;
+        if(type == CARDTYPE.BEARD || type == CARDTYPE.MELON || type == CARDTYPE.POTATO || type == CARDTYPE.TACO){
+            isCatCard = true;
+        }else {
+            isCatCard = false;
+        }
         canPlayIfNope = false;
     }
 
     // Copy constructor
     public Card(Card oldCard) {
-
+        cardType = oldCard.cardType;
+        description = oldCard.description;
+        isPlayable = oldCard.isPlayable;
+        isSelected = oldCard.isSelected;
+        isOnScreen = oldCard.isOnScreen;
+        isCatCard = oldCard.isCatCard;
+        canPlayIfNope = oldCard.canPlayIfNope;
     }
+//FIXME: crashes
+    public String toString(){
+        return "Type: " + cardType.name() + " Is catCard: "+ isCatCard + "\n";
+    }
+
+    public CARDTYPE getType(){ return this.cardType; }
 }

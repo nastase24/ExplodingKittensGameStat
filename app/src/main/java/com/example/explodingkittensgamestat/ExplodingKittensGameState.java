@@ -1,10 +1,7 @@
 package com.example.explodingkittensgamestat;
 
-import android.content.Context;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.Collections;
 
 /**
  * ExplodingKittensGameState: Creates the decks and assigns and moves cards according to player
@@ -15,35 +12,34 @@ import java.util.Hashtable;
  * @author Alex Nastase
  */
 
-public class ExplodingKittensGameState extends Hashtable{
+public class ExplodingKittensGameState {
 
     public ArrayList<ArrayList<Card>> deck;
     public ArrayList<Card> discard;
     public ArrayList<Card> draw;
-    public ArrayList<Card> humanPlayer;
-    public  ArrayList<Card> dumb;
-    public ArrayList<Card> dumber;
-    public ArrayList<Card> dumbest;
+    public STATE gameState = STATE.PROGRAM_LAUNCHED;
+    //TODO player ticker, start game funct, end game funct, start turn funct
 
+    public static final int NUM_PLAYERS = 4;
 
     /**
      * ExplodingKittensGameState: creates the various decks for the players, draw, and discard piles
-     *
+     * @param size: the number of players to declare hands for
      */
     //default constructor
     public ExplodingKittensGameState(int size) {
-        deck = new ArrayList<ArrayList<Card>>(4);
-        draw = new ArrayList<Card>(52);
-        discard = new ArrayList<Card>(52);
+        this.deck = new ArrayList<ArrayList<Card>>(NUM_PLAYERS);
+        this.draw = new ArrayList<Card>(52);
+        this.discard = new ArrayList<Card>(52);
         for(int i = 0; i< size; i++){
-            deck.add(new ArrayList<Card>(7));
+            this.deck.add(new ArrayList<Card>(7));
         }
-        createCards();
+        gameState = STATE.INIT_ARRAYS;
     }
 
     /**
      * ExplodingKittensGameState Deep Copy
-     * @param state: the
+     * @param state: the target instance of EKGS to deep copy
      */
     //deep copy constructor
     public ExplodingKittensGameState(ExplodingKittensGameState state){
@@ -57,10 +53,10 @@ public class ExplodingKittensGameState extends Hashtable{
             discard.add(state.discard.get(i));
         }
 
-        deck = new ArrayList<ArrayList<Card>>(6);
-        deck.add(draw);
-        deck.add(discard);
-        for (int i = 2; i < state.deck.size(); i++) {
+        deck = new ArrayList<ArrayList<Card>>(NUM_PLAYERS);
+        //deck.add(draw);
+        //deck.add(discard);
+        for (int i = 0; i < state.deck.size(); i++) {
             deck.add(new ArrayList<Card>(7));
             for (int j = 0; j < state.deck.get(i).size(); j++ ) {
                 deck.get(i).add(new Card(state.deck.get(i).get(j)));
@@ -78,273 +74,116 @@ public class ExplodingKittensGameState extends Hashtable{
         //sets the hash table keys and strings to the card description, and the card ID.
 
 
-        //TODO: ADD in card ID and description to the constructor
         for(int i = 0; i < 4; i++){
-            draw.add(new Card(CARDTYPE.ATTACK));
-            draw.add(new Card(CARDTYPE.FAVOR));
-            draw.add(new Card(CARDTYPE.NOPE));
-            draw.add(new Card(CARDTYPE.SHUFFLE));
-            draw.add(new Card(CARDTYPE.SKIP));
-            draw.add(new Card(CARDTYPE.SEEFUTURE));
-            draw.add(new Card(CARDTYPE.MELON));
-            draw.add(new Card(CARDTYPE.BEARD));
-            draw.add(new Card(CARDTYPE.TACO));
-            draw.add(new Card(CARDTYPE.POTATO));
+            this.draw.add(new Card(CARDTYPE.ATTACK));
+            this.draw.add(new Card(CARDTYPE.FAVOR));
+            this.draw.add(new Card(CARDTYPE.NOPE));
+            this.draw.add(new Card(CARDTYPE.SHUFFLE));
+            this.draw.add(new Card(CARDTYPE.SKIP));
+            this.draw.add(new Card(CARDTYPE.SEEFUTURE));
+            this.draw.add(new Card(CARDTYPE.MELON));
+            this.draw.add(new Card(CARDTYPE.BEARD));
+            this.draw.add(new Card(CARDTYPE.TACO));
+            this.draw.add(new Card(CARDTYPE.POTATO));
         }
-        draw.add(new Card(CARDTYPE.EXPLODE));
-        draw.add(new Card(CARDTYPE.EXPLODE));
-        draw.add(new Card(CARDTYPE.EXPLODE));
+
+        this.draw.add(new Card(CARDTYPE.EXPLODE));
+        this.draw.add(new Card(CARDTYPE.EXPLODE));
+        this.draw.add(new Card(CARDTYPE.EXPLODE));
 
         for(int i = 0; i < 4; i++){
             deck.get(i).add(new Card(CARDTYPE.DEFUSE));
         }
-        draw.add(new Card(CARDTYPE.DEFUSE));
-        draw.add(new Card(CARDTYPE.DEFUSE));
-        draw.add(new Card(CARDTYPE.NOPE));
-        draw.add(new Card(CARDTYPE.SEEFUTURE));
+        this.draw.add(new Card(CARDTYPE.DEFUSE));
+        this.draw.add(new Card(CARDTYPE.DEFUSE));
+        this.draw.add(new Card(CARDTYPE.NOPE));
+        this.draw.add(new Card(CARDTYPE.SEEFUTURE));
 
-       }
-
-    /**
-     * playCard: Determines the card selected to be played and executes that play if legal
-     * @return if card can be legally played
-     */
-
-    // actions verification methods start here
-
-    boolean playCard() {
-        if (true) {
-        // requirements for defuse
-        if( deck.(CARDTYPE.DEFUSE) && deck.(CARDTYPE.EXPLODE)){
-            // if user draws exploding kitten card, and has a defuse card, the exploding kitten gets defused
-            return true;
-        }
-
-        /**
-         * requirements for attack
-         * player selected attack card
-         * player selected another player to attack
-         *
-         */
-
-        /**
-         * requirements for skip
-         * player selected skip card
-         * player selected discard pile
-         *
-         */
-
-        /**
-         * requirements for seeFuture
-         * player selected seeFuture
-         * player selected draw pile
-         *
-         */
-
-        /**
-         * requirements for shuffle
-         * player selected shuffle
-         * player selected draw pile
-         *
-         */
-
-        /**
-         * requirements for favor
-         * player selected favor
-         * player clicked on another player
-         *
-         */
-
-        /**
-         * requirements for nope
-         * another player plays a card
-         * player selects nope and selects player or discard pile
-         *
-         */
-
-        /**
-         * requirements for two of a kind
-         * player selects select multiple button
-         * player selects two of a kind
-         * player selects another player
-         *
-         */
-
-        /**
-         * requirements for three of a kind
-         * player selects select multiple button
-         * player selects three of a kind
-         * player selects another player
-         * player selects a type of card they ask for
-         *
-         */
-
-        /**
-         * requirements for five
-         * player selects select multiple button
-         * player selects five cards
-         * player selects another player
-         * player selects type of card they ask for
-         *
-         */
-
-    return false;
+        gameState = STATE.INIT_OBJECTS;
     }
 
     /**
-     * drawCard: determines which card type was drawn, accordingly defuses exploding kittens or
-     * eliminates player if appropriate
-     * @return if card was drawn and actions executed legally
+     * PrepareGame: calls createCards(), and then shuffles the draw pile. Iterates through the 4 player hands in
+     * deck, and adds the first 6 cards into a player hand iff it isnt an exploding kitten using move()
+     * and finally sets the gameState to GAME_SETUP
      */
-    boolean drawCard() {
-        if (true) {
-            return true;
+    public void prepareGame(){
+        createCards();
+        Collections.shuffle(this.draw);
+        //iterates through the 4
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 6; j++){
+                //FIXME: make sure this gets every deck 7 cards even if there is double explode in draw
+                if(this.draw.get(j).getType() != CARDTYPE.EXPLODE ){
+                    move(this.draw.get(j),this.draw,this.deck.get(i));
+                }else if(this.draw.get(j+1).getType() != CARDTYPE.EXPLODE ){
+                    move(this.draw.get(j+1),this.draw,this.deck.get(i));
+                }
+            }
         }
-        return false;
+        gameState = STATE.GAME_SETUP;
     }
 
     /**
-     * defuse: defuses exploding kittens when drawn
-     * @return if defuse executed legally
-     */
-    boolean defuse() {
-        if (true) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * attack: forces next player to play two turns, current player need not draw card
-     * @return if attack executed legally
-     */
-    boolean attack() {
-        if (true) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * skip: skips current player's turn without drawing card
-     * @return if skip executed legally
-     */
-
-    boolean skip() {
-        if (true) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * seeFuture: allows player to look at top three draw pile cards
-     * @return if see the future executed legally
-     */
-    boolean seeFuture() {
-        if (true) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Shuffle: shuffles the draw pile cards
-     * @return if shuffle executed legally
-     */
-    boolean shuffle() {
-        if (true) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * favor: forces another player to give you one card from their hand
-     * @return if favor executed legally
-     */
-    boolean favor() {
-        if (true) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * nope: stops an action before it is executed
-     * @return if nope executed legally
-     */
-    boolean nope() {
-        if (true) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * twoOfKind: determines if two cat cards are the same type, player can steal a random card from
-     * another player
-     * @return if two of a kind executed legally
-     */
-    boolean twoOfKind() {
-        if (true) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * threeOfKind: determines if three matching cards, player can ask player for specific type of
-     * card
-     * @return if three of a kind executed legally
-     */
-    boolean threeOfKind() {
-        if (true) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * playFive: determines if all five selected cards are different, allows player to take card
-     * from discard pile
-     * @return if five of a kind executed legally
-     */
-    boolean playFive() {
-        if (true) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * restartGame: restarts the game at the original game state
-     * @return if return executed legally
-     */
-    boolean restartGame() {
-        if (true) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * quitGame: returns to the main screen
-     * @return if quit game executed correctly
-     */
-    boolean quitGame() {
-        if (true) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * toString: prints a string of all variables in instance to EditText
-     * @return String of the various components
-     */
+     * ToString: Returns a string including the current gamestate, and the contents of Deck, Draw, and discard arrayLists
+     * @return - returns said string
+     *      */
     @Override
-    public String toString() {
-        return deck + " " + discard + " " + draw;
+    public String toString(){
+        String string = "Game State: " + gameState.name()
+                +"\n############\n"+ "DECK: \n" + this.deck.toString() +
+                "\nDRAW: \n" + this.draw.toString() + "\nDISCARD: \n" + this.discard.toString();
+        return string;
     }
+
+
+    /**
+     * Move: Moves the card from src to dest iff it exists in src
+     * @param card card object to move
+     * @param src - source arrayList to take it from
+     * @param dest - destination arrayList to move it to
+     * @return - true: action was executed, false: card not found in src
+     */
+    public boolean move(Card card, ArrayList<Card> src, ArrayList<Card> dest){
+        if(src.contains(card)){
+            dest.add(card);
+            src.remove(card);
+            return true;
+        }
+        return false;
+    }
+//TODO test each playcard
+    public boolean playCard(Card card, ArrayList<Card> src, ArrayList<Card> dest){
+        CARDTYPE type = card.getType();
+        switch(type){
+            case MELON:
+            case BEARD:
+            case POTATO:
+            case TACO:
+                if(move(card,src,dest)){
+                    return true;
+                }
+                break;
+            case ATTACK:
+                break;
+            case SHUFFLE:
+                Collections.shuffle(this.draw);
+                break;
+            case FAVOR:
+                break;
+            case SKIP:
+                break;
+            case SEEFUTURE:
+                break;
+            case NOPE:
+                break;
+            case DEFUSE:
+                break;
+            case EXPLODE:
+                break;
+        }
+        return false;
+    }
+
 }
+
