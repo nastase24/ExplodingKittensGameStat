@@ -91,6 +91,9 @@ public class ExplodingKittensGameState {
     public void createCards() {
         //sets the hash table keys and strings to the card description, and the card ID.
 
+
+
+
         for(int i = 0; i < 4; i++){
             this.draw.add(new Card(CARDTYPE.ATTACK));
             this.draw.add(new Card(CARDTYPE.FAVOR));
@@ -104,19 +107,20 @@ public class ExplodingKittensGameState {
             this.draw.add(new Card(CARDTYPE.POTATO));
         }
 
-        this.draw.add(new Card(CARDTYPE.EXPLODE));
-        this.draw.add(new Card(CARDTYPE.EXPLODE));
-        this.draw.add(new Card(CARDTYPE.EXPLODE));
+        //this.draw.add(new Card(CARDTYPE.EXPLODE));
+        //this.draw.add(new Card(CARDTYPE.EXPLODE));
 
         for(int i = 0; i < 4; i++){
             deck.get(i).add(new Card(CARDTYPE.DEFUSE));
         }
+        int index = 0;
         this.draw.add(new Card(CARDTYPE.DEFUSE));
         this.draw.add(new Card(CARDTYPE.DEFUSE));
         this.draw.add(new Card(CARDTYPE.NOPE));
         this.draw.add(new Card(CARDTYPE.SEEFUTURE));
 
-        gameState = STATE.INIT_OBJECTS;
+
+     gameState = STATE.INIT_OBJECTS;
     }
 
 
@@ -131,16 +135,31 @@ public class ExplodingKittensGameState {
         createCards();
         //Collections.shuffle(this.draw);
         //iterates through the 4
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 6; j++){
+        for(int i = 0; i < 4; i++) {
+            for (int j = 0; j < 6; j++) {
                 //FIXME: make sure this gets every deck 7 cards even if there is double explode in draw
-                if(this.draw.get(j).getType() != CARDTYPE.EXPLODE ){
-                    move(this.draw.get(j),this.draw,this.deck.get(i));
-                }else if(this.draw.get(j+1).getType() != CARDTYPE.EXPLODE ){
-                    move(this.draw.get(j+1),this.draw,this.deck.get(i));
+                if (this.draw.get(j).getType() != CARDTYPE.EXPLODE) {
+                    moveStart(this.draw.get(j), this.draw, this.deck.get(i));
+                } else if (this.draw.get(j + 1).getType() != CARDTYPE.EXPLODE) {
+                    moveStart(this.draw.get(j + 1), this.draw, this.deck.get(i));
                 }
             }
         }
+
+        draw.clear();
+        this.draw.add(new Card(CARDTYPE.EXPLODE));
+        this.draw.add(new Card(CARDTYPE.SKIP));
+        this.draw.add(new Card(CARDTYPE.ATTACK));
+        this.draw.add(new Card(CARDTYPE.FAVOR));
+        this.draw.add(new Card(CARDTYPE.NOPE));
+        this.draw.add(new Card(CARDTYPE.SHUFFLE));
+        this.draw.add(new Card(CARDTYPE.MELON));
+        this.draw.add(new Card(CARDTYPE.BEARD));
+        this.draw.add(new Card(CARDTYPE.TACO));
+        this.draw.add(new Card(CARDTYPE.POTATO));
+        this.draw.add(new Card(CARDTYPE.EXPLODE));
+        this.draw.add(new Card(CARDTYPE.EXPLODE));
+
         gameState = STATE.GAME_SETUP;
     }
 
@@ -154,22 +173,25 @@ public class ExplodingKittensGameState {
         }
         return true;
     }
-
-    public void lolz(){
-       // move(getCard(CARDTYPE.EXPLODE,draw),draw,deck.get(playerTurn));
-        draw.add(0,new Card(CARDTYPE.EXPLODE));
+    public boolean moveStart(Card card, ArrayList<Card> src, ArrayList<Card> dest){
+        if(src.contains(card)){
+            dest.add(card);
+            src.remove(card);
+            return true;
+        }
+        return false;
     }
 
     public void endTurn(int playerTurn, int reason){
         switch(reason){
             case DRAWCARD:
-                Card temp = draw.get(0);
+                CARDTYPE temp = draw.get(0).getType();
                 move(temp,draw,deck.get(playerTurn));
               //  for( Card card: deck.get(playerTurn)){
               //      card.isPlayable = false;
                //     }
-                if(temp.getType() == CARDTYPE.EXPLODE){
-                    playCard(playerTurn, getCard(CARDTYPE.DEFUSE,deck.get(playerTurn)) , deck.get(playerTurn) ,discard);
+                if(temp == CARDTYPE.EXPLODE){
+                    playCard(playerTurn, CARDTYPE.DEFUSE, deck.get(playerTurn) ,discard);
                 }
                 //Tests if the drawn card is explode
                 break;
@@ -220,20 +242,19 @@ public class ExplodingKittensGameState {
      * @param dest - destination arrayList to move it to
      * @return - true: action was executed, false: card not found in src
      */
-    public boolean move(Card card, ArrayList<Card> src, ArrayList<Card> dest){
+    public boolean move(CARDTYPE card, ArrayList<Card> src, ArrayList<Card> dest){
         if(src.contains(card)){
-            dest.add(card);
-            src.remove(card);
-            return true;
+            Card card1 = new Card(card);
+            dest.add(card1);
+
+            src.remove(card1);
         }
         return false;
     }
 
 //TODO test each playcard
-    public boolean playCard(int playerTurn, Card card, ArrayList<Card> src, ArrayList<Card> dest){
-        Card temp = new Card(CARDTYPE.EXPLODE);
-        CARDTYPE type = card.getType();
-        switch(type){
+    public boolean playCard(int playerTurn, CARDTYPE card, ArrayList<Card> src, ArrayList<Card> dest){
+        switch(card){
             case MELON:
             case BEARD:
             case POTATO:
@@ -262,12 +283,14 @@ public class ExplodingKittensGameState {
             case NOPE:
                 break;
             case DEFUSE:
-                if(deck.get(playerTurn).contains(card) && deck.get(playerTurn).contains(temp)){
+                if(deck.get(playerTurn).contains(card) && hasExplode(deck.get(playerTurn))){
                     move(card,src,dest) ;
-                    move(getCard(CARDTYPE.EXPLODE,src),src,dest);
+
+                    move(CARDTYPE.EXPLODE,src,draw);
+
                     return true;
                 }
-                else if(deck.get(playerTurn).contains(card) && !(deck.get(playerTurn).contains(temp))) {
+                else if(deck.get(playerTurn).contains(card) && !hasExplode(deck.get(playerTurn))) {
                     return false;
                 }
                 else{
@@ -277,10 +300,18 @@ public class ExplodingKittensGameState {
             case EXPLODE:
                 break;
             default:
-                throw new IllegalStateException("Unexpected value: " + type);
+                throw new IllegalStateException("Unexpected value: " + card);
         }
         return false;
     }
+
+    public boolean hasExplode(ArrayList<Card> src){
+        if(getCard(CARDTYPE.EXPLODE, src) != null) {
+            return true;
+        }
+        return false;
+    }
+
 
     public Card getCard(CARDTYPE type, ArrayList<Card> src){
         for(Card cards: src){
