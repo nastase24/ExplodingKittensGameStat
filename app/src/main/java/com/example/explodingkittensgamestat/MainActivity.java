@@ -65,31 +65,39 @@ import java.util.Collections;
 
 
         public void test(ExplodingKittensGameState ins, EditText textBox) {
+
             ins.prepareGame();
             textBox.append(ins.gameStatetoString());
-            //textBox.append(ins.toString());
+
             ins.startGame();
             textBox.append(ins.gameStatetoString());
-            //textBox.append(ins.toString());
+
+
             ins.takeTurn(ins.playerTurn);
-            //Card defuse = new Card(CARDTYPE.DEFUSE);
 
             //ins.playCard(ins.playerTurn, defuse, ins.deck.get(ins.playerTurn), ins.discard);
-          //  ins.lolz();
 
             ins.endTurn(ins.playerTurn, 4000);
             textBox.append(ins.toString());
+
             ins.nextPlayer(ins.playerTurn);
             ins.takeTurn(ins.playerTurn);
-            Card skip = new Card(CARDTYPE.SKIP);
-            ins.playCard(ins.playerTurn, skip, ins.deck.get(ins.playerTurn), ins.discard);
+
+
+            ins.playCard(ins.playerTurn, CARDTYPE.SKIP, ins.deck.get(ins.playerTurn), ins.discard);
+
             textBox.append(ins.toString());
+
             ins.nextPlayer(ins.playerTurn);
             ins.takeTurn(ins.playerTurn);
-            Card shuffle = new Card(CARDTYPE.SHUFFLE);
-            ins.playCard(ins.playerTurn, shuffle, ins.deck.get(ins.playerTurn), ins.discard);
+
+
+            ins.playCard(ins.playerTurn, CARDTYPE.SHUFFLE, ins.deck.get(ins.playerTurn), ins.discard);
+
+
             ins.endTurn(ins.playerTurn, 4000);
             textBox.append(ins.toString());
+
             ins.endGame(ins.playerStatus);
             textBox.append(ins.gameStatetoString());
         }
