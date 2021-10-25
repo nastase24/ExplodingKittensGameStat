@@ -20,8 +20,10 @@ import java.util.Hashtable;
 
 public class Card extends Hashtable {
 
+    //enum to track the card type of each obj
     private CARDTYPE cardType;
 
+    //hashtable to trach the
     Hashtable<CARDTYPE,String> ht1 = new Hashtable();
 
 
@@ -54,7 +56,7 @@ public class Card extends Hashtable {
 
     //set card info in this constructor
     public Card(CARDTYPE type) {
-
+        //TODO: find a better place for this hashtable
         ht1.put(CARDTYPE.MELON, "Cat Cards: tacocat, cattermelon, hairy potato cat, and beard " +
                 "cat, must be played in matched pairs, a pair of three allows player to ask for a " +
                 "specific card from another's hand, and a pair of two allows player to ask for a " +
@@ -105,10 +107,18 @@ public class Card extends Hashtable {
         canPlayIfNope = oldCard.canPlayIfNope;
     }
 
+    /**
+     * To string method for the card objects
+     * @return - string of just the card's name
+     */
     public String toString(){
         //return "Type: " + cardType.name() + " Is catCard: "+ isCatCard + "\n";
         return cardType.name();
     }
 
+    /**
+     * gets the type of a card object
+     * @return - CARDTYPE - type of card the obj was assigned
+     */
     public CARDTYPE getType(){ return this.cardType; }
 }

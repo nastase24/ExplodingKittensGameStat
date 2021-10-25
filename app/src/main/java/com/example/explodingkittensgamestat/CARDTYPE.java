@@ -8,6 +8,9 @@ package com.example.explodingkittensgamestat;
  * @author Alex Nastase
  */
 
+/**
+ *
+ */
 public enum CARDTYPE{
     MELON,
     BEARD,

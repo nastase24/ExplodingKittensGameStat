@@ -69,6 +69,13 @@ public class ExplodingKittensGameState {
         this.playerStatus = state.playerStatus;
     }
 
+    /**
+     * Ends the current player's turn, and executes specific commands based on the circumstances
+     * under which the turn should be ended
+     * @param playerTurn - ID of the player whose turn is being ended
+     * @param reason - calls in static variables to represent all the manners in which a player can
+     *               end their turn, such as drawing a card, playing a skip, attack, or losing
+     */
     public void endTurn(int playerTurn, int reason){
         switch(reason){
             case DRAWCARD:
@@ -100,22 +107,13 @@ public class ExplodingKittensGameState {
         }
     }
 
-    /**
-     * Move: Moves the card from src to dest iff it exists in src
-     * @param card card object to move
-     * @param src - source arrayList to take it from
-     * @param dest - destination arrayList to move it to
-     * @return - true: action was executed, false: card not found in src
+   /**
+     * The helper function to move a card obj from src to dest arrayLists iff it contains that card
+     * @param card - card object to be moved
+     * @param src - source ArrayList
+     * @param dest - destination ArrayLIst
+     * @return - returns true if it was able to move, false if not
      */
-    public boolean move(CARDTYPE card, ArrayList<Card> src, ArrayList<Card> dest){
-        if(src.contains(card)){
-            Card card1 = new Card(card);
-            dest.add(card1);
-            src.remove(card1);
-        }
-        return false;
-    }
-
     public boolean moveStart(Card card, ArrayList<Card> src, ArrayList<Card> dest){
         if(src.contains(card)){
             dest.add(card);
@@ -125,20 +123,31 @@ public class ExplodingKittensGameState {
         return false;
     }
 
+    /**
+     * Draws a card from the draw pile arrayList and removes it from there
+     * @return - returns the card object that was drawn
+     */
     public Card takeFromDraw() {
         Card fromDraw = draw.get(0);
         draw.remove(0);
         return fromDraw;
     }
 
-    //TODO test each playcard
+    /**
+     * A huge function to compute which action a player intended to do by playing a card
+     * @param playerTurn - index of the current player doing the actions
+     * @param card - cardtype of the card they want to play
+     * @param src - source from which the card of that type should be looked for
+     * @param dest - the destination to which the card should go or direct the action to
+     * @return true if the action was executed, false if not
+     */
     public boolean playCard(int playerTurn, CARDTYPE card, ArrayList<Card> src, ArrayList<Card> dest){
         switch(card){
             case MELON:
             case BEARD:
             case POTATO:
             case TACO:
-                if(move(card,src,dest)){
+                if(moveStart(getCard(card,src),src,dest)){
                     return true;
                 }
                 break;
@@ -157,7 +166,6 @@ public class ExplodingKittensGameState {
             case FAVOR:
                 break;
             case SKIP:
-                boolean containsSkip = hasSkip(deck.get(playerTurn));
                 int moveSkip = getCardIndex(CARDTYPE.SKIP, deck.get(playerTurn));
                 Card moveCardSkip = getCard(CARDTYPE.SKIP, deck.get(playerTurn));
                 if(moveSkip != -1) {
@@ -173,8 +181,6 @@ public class ExplodingKittensGameState {
                 break;
             case DEFUSE:
                 //boolean containsDefuse = deck.get(playerTurn).contains(card);
-                boolean containsDefuse = hasDefuse(deck.get(playerTurn));
-                boolean containsExplode = hasExplode(deck.get(playerTurn));
                 int moveExplode = getCardIndex(CARDTYPE.EXPLODE, deck.get(playerTurn));
                 int moveDefuse = getCardIndex(CARDTYPE.DEFUSE, deck.get(playerTurn));
                 Card moveCardExplode = getCard(CARDTYPE.EXPLODE, deck.get(playerTurn));
@@ -203,13 +209,12 @@ public class ExplodingKittensGameState {
         return false;
     }
 
-    public boolean hasDefuse(ArrayList<Card> src) {
-        if (getCard(CARDTYPE.DEFUSE, src) != null) {
-            return true;
-        }
-        return false;
-    }
 
+    /**
+     * boolean to determine if a arrayLIst has an explode card
+     * @param src- source arrayList to search
+     * @return - true if the deck has an explode card, false if it doesn't
+     */
     public boolean hasExplode(ArrayList<Card> src){
         if(getCard(CARDTYPE.EXPLODE, src) != null) {
             return true;
@@ -217,13 +222,12 @@ public class ExplodingKittensGameState {
         return false;
     }
 
-    public boolean hasSkip(ArrayList<Card> src) {
-        if (getCard(CARDTYPE.SKIP, src) != null) {
-            return true;
-        }
-        return false;
-    }
-
+    /**
+     * getter method to get the index of a card in an arrayList
+     * @param type - the cardtype in mind to search for an object for
+     * @param src - the source arrayList to look in
+     * @return - returns the index that the card object is located at, or -1 if it is not found in src
+     */
     public int getCardIndex(CARDTYPE type, ArrayList<Card> src) {
         for(int index = 0; index < src.size(); index++) {
             if(src.get(index).getType() == type) {
@@ -233,16 +237,26 @@ public class ExplodingKittensGameState {
         return -1;
     }
 
+    /**
+     * gets a card object of a certain type from a source arrayLIst
+     * @param type - cardtype to search for
+     * @param src - the source arrayList to search in
+     * @return - retruns the card Object if it exists, null if it doesn't exist
+     */
     public Card getCard(CARDTYPE type, ArrayList<Card> src){
-        for(Card cards: src){
-            if(cards.getType() == type){
-                return cards;
+        for(Card card: src){
+            if(card.getType() == type){
+                return card;
             }
         }
         return null;
     }
 
-
+    /**
+     * computes the integer number of the next player in a turn sequence (loops around through NUM PLAYERS
+     * @param currentPlayer - current player index whose turn it is
+     * @return - returns the integer of the next player that is in the game still
+     */
     public int nextPlayer(int currentPlayer) {
         if (currentPlayer > 2) {
             currentPlayer = 0;
@@ -256,23 +270,31 @@ public class ExplodingKittensGameState {
         else return nextPlayer(currentPlayer);
     }
 
+    /**
+     * Checks if the current player index is valid or not (in the game or out)
+     * @param currentPlayer - index of current player
+     * @return - true if player is still in the game, false if not
+     */
     public boolean checkIfValid(int currentPlayer) {
         if (deck.get(currentPlayer) != null) return true;
         else return false;
     }
 
-    /**
-     * ToString: Returns a string including the current gamestate, and the contents of Deck, Draw, and discard arrayLists
-     * @return - returns said string
-     **/
 
-    // @Override
+    /**
+     * returns the state of the game, NOT THE EKGAMESTATE object
+     * @return - a string message indicating what point the game is in
+     */
     public String gameStatetoString(){
         String gstring = "Game State:" + gameState.name() + "\n\n";
         return gstring;
     }
 
-
+    /**
+     * Creats a string of the big info about the EKgamestate, like current player, the contents of
+     * all the ArrayList<Card>,
+     * @return - String - the info string
+     */
     @Override
     public String toString(){
         String string ="****************\n" + "Current Player: " + this.playerTurn + "\n\n DECK: \n" + this.deck.toString() +
@@ -287,7 +309,7 @@ public class ExplodingKittensGameState {
      * and finally sets the gameState to GAME_SETUP
      */
     //TODO change line 309 to send to draw
-    //TODO mkae sure draw is rando
+    //TODO make sure draw is shuffled in the function
     //TODO shuffle the hands
     public void prepareGame(){
         createCards();
@@ -301,7 +323,7 @@ public class ExplodingKittensGameState {
                 }
             }
         }
-
+        //TODO delete below line(s) that was for testing only
         draw.clear();
         this.draw.add(new Card(CARDTYPE.EXPLODE));
         this.draw.add(new Card(CARDTYPE.SKIP));
@@ -351,6 +373,12 @@ public class ExplodingKittensGameState {
         gameState = STATE.INIT_OBJECTS;
     }
 
+    /**
+     * sets a player's deck to playable
+     * @param playerTurn - index of current player
+     * @return - true if it did the actions
+     * TODO: implement some checking to make sure the right player is being called
+     */
     public boolean takeTurn(int playerTurn){
         for(Card card: deck.get(playerTurn)){
             card.isPlayable = true;
@@ -358,10 +386,21 @@ public class ExplodingKittensGameState {
         return true;
     }
 
+    /**
+     * sets the gameState to MAIN_PLAY
+     * todo: check to checking to make sure this cannot be done out of order
+     */
     public void startGame(){
         gameState = STATE.MAIN_PLAY;
     }
 
+    /**
+     * Tests if the game is over
+     * @param playerStatus - an array indicated which players are in the game (true) and which are
+     *                     out (false)
+     * @return - true if there is only one in (true) player in playerStatus, false if there are more
+     * than one players still playing
+     */
     public boolean endGame(boolean[] playerStatus){
         int out = 0;
         for(int i = 0; i < playerStatus.length; i++){
