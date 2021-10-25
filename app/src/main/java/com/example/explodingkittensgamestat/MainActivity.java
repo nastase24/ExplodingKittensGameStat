@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import java.util.Collections;
+
 /**
  * MainActivity: Assigns the onCreate and onClick methods to create and allow click actions
  * @author Anna Yrjanson
@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         // 1. Clear any previous text displayed in the multi-line EditText
         EditText editText = findViewById(R.id.textBox);
+        editText.setText("");
 
         ExplodingKittensGameState firstInstance;
         ExplodingKittensGameState secondInstance;
@@ -67,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void test(ExplodingKittensGameState ins, EditText textBox) {
         //PREPARE THE GAME
         //TODO: Right before gameplay starts, shuffle each player hand
-        textBox.setText("");
         ins.startGame();
 
         textBox.append("This is the initial game state\n");
