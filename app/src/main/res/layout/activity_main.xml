@@ -15,7 +15,7 @@
         <EditText
             android:id="@+id/textBox"
             android:layout_width="match_parent"
-            android:layout_height="360dp"
+            android:layout_height="900dp"
             android:editable="false"
             android:text="Hello World!" />
 
