@@ -32,13 +32,13 @@ public class ExplodingKittensGameState {
      * @param size: the number of players to declare hands for
      */
     public ExplodingKittensGameState(int size) {
-        this.deck = new ArrayList<ArrayList<Card>>(NUM_PLAYERS);
-        this.draw = new ArrayList<Card>(52);
-        this.discard = new ArrayList<Card>(52);
+        this.deck = new ArrayList<>(NUM_PLAYERS);
+        this.draw = new ArrayList<>(52);
+        this.discard = new ArrayList<>(52);
         this.playerTurn = 0;
         this.playerStatus = new boolean[] {true, true, true, true};
         for(int i = 0; i< size; i++){
-            this.deck.add(new ArrayList<Card>(7));
+            this.deck.add(new ArrayList<>(7));
         }
         gameState = STATE.INIT_ARRAYS;
     }
@@ -49,19 +49,19 @@ public class ExplodingKittensGameState {
      */
     public ExplodingKittensGameState(ExplodingKittensGameState state){
         playerTurn = 0;
-        draw = new ArrayList<Card>();
+        draw = new ArrayList<>();
         for (int i = 0; i < state.draw.size(); i++) {
             draw.add(state.draw.get(i));
         }
 
-        discard = new ArrayList<Card>();
+        discard = new ArrayList<>();
         for (int i = 0; i < state.discard.size(); i++) {
             discard.add(state.discard.get(i));
         }
 
-        deck = new ArrayList<ArrayList<Card>>(NUM_PLAYERS);
+        deck = new ArrayList<>(NUM_PLAYERS);
         for (int i = 0; i < state.deck.size(); i++) {
-            deck.add(new ArrayList<Card>(7));
+            deck.add(new ArrayList<>(7));
             for (int j = 0; j < state.deck.get(i).size(); j++ ) {
                 deck.get(i).add(new Card(state.deck.get(i).get(j)));
             }
@@ -133,25 +133,62 @@ public class ExplodingKittensGameState {
         return fromDraw;
     }
 
+
     /**
-     * A huge function to compute which action a player intended to do by playing a card
-     * @param playerTurn - index of the current player doing the actions
-     * @param card - cardtype of the card they want to play
-     * @param src - source from which the card of that type should be looked for
-     * @param dest - the destination to which the card should go or direct the action to
-     * @return true if the action was executed, false if not
+     * playCard:
+     * @param playerTurn - the index of the player who is playing the card
+     * @param card - the card being played
+     * @param src - the source array for the card being played
+     * @param dest - the desination array for the card being played
+     * @return boolean - whether play card executed or nor
      */
+    //TODO test each playcard
     public boolean playCard(int playerTurn, CARDTYPE card, ArrayList<Card> src, ArrayList<Card> dest){
         switch(card){
             case MELON:
+                int moveMelon = getCardIndex(CARDTYPE.MELON, deck.get(playerTurn));
+                Card moveCardMelon = getCard(CARDTYPE.MELON, deck.get(playerTurn));
+                if(moveMelon != -1) {
+                    discard.add(moveCardMelon);
+                    deck.get(playerTurn).remove(moveMelon);
+                    return true;
+                }
+                break;
             case BEARD:
+                int moveBeard = getCardIndex(CARDTYPE.BEARD, deck.get(playerTurn));
+                Card moveCardBeard = getCard(CARDTYPE.BEARD, deck.get(playerTurn));
+                if(moveBeard != -1) {
+                    discard.add(moveCardBeard);
+                    deck.get(playerTurn).remove(moveBeard);
+                    return true;
+                }
+                break;
             case POTATO:
+                int movePotato = getCardIndex(CARDTYPE.POTATO, deck.get(playerTurn));
+                Card moveCardPotato = getCard(CARDTYPE.POTATO, deck.get(playerTurn));
+                if(movePotato != -1) {
+                    discard.add(moveCardPotato);
+                    deck.get(playerTurn).remove(movePotato);
+                    return true;
+                }
+                break;
             case TACO:
-                if(moveStart(getCard(card,src),src,dest)){
+                int moveTaco = getCardIndex(CARDTYPE.TACO, deck.get(playerTurn));
+                Card moveCardTaco = getCard(CARDTYPE.TACO, deck.get(playerTurn));
+                if(moveTaco != -1) {
+                    discard.add(moveCardTaco);
+                    deck.get(playerTurn).remove(moveTaco);
                     return true;
                 }
                 break;
             case ATTACK:
+                int moveAttack = getCardIndex(CARDTYPE.ATTACK, deck.get(playerTurn));
+                Card moveCardAttack = getCard(CARDTYPE.ATTACK, deck.get(playerTurn));
+                if(moveAttack != -1) {
+                    discard.add(moveCardAttack);
+                    deck.get(playerTurn).remove(moveAttack);
+                    return true;
+                }
                 break;
             case SHUFFLE:
                 int moveShuffle = getCardIndex(CARDTYPE.SHUFFLE, deck.get(playerTurn));
@@ -164,23 +201,43 @@ public class ExplodingKittensGameState {
                 }
                 break;
             case FAVOR:
+                int moveFavor = getCardIndex(CARDTYPE.FAVOR, deck.get(playerTurn));
+                Card moveCardFavor = getCard(CARDTYPE.FAVOR, deck.get(playerTurn));
+                if (moveFavor != -1) {
+                    //TODO: Make so able to take another player's card
+                    discard.add(moveCardFavor);
+                    deck.get(playerTurn).remove(moveFavor);
+                    return true;
+                }
                 break;
             case SKIP:
                 int moveSkip = getCardIndex(CARDTYPE.SKIP, deck.get(playerTurn));
                 Card moveCardSkip = getCard(CARDTYPE.SKIP, deck.get(playerTurn));
                 if(moveSkip != -1) {
-                    //Card getSkip = getCard(CARDTYPE.SKIP, deck.get(playerTurn));
                     discard.add(moveCardSkip);
                     deck.get(playerTurn).remove(moveSkip);
                     endTurn(playerTurn, SKIPTURN);
                 }
                 break;
             case SEEFUTURE:
+                int moveSeeFuture = getCardIndex(CARDTYPE.SEEFUTURE, deck.get(playerTurn));
+                Card moveCardSeeFuture = getCard(CARDTYPE.SEEFUTURE, deck.get(playerTurn));
+                if (moveSeeFuture != -1) {
+                    discard.add(moveCardSeeFuture);
+                    deck.get(playerTurn).remove(moveSeeFuture);
+                    return true;
+                }
                 break;
             case NOPE:
+                int moveNope = getCardIndex(CARDTYPE.NOPE, deck.get(playerTurn));
+                Card moveCardNope = getCard(CARDTYPE.NOPE, deck.get(playerTurn));
+                if (moveNope != -1) {
+                    discard.add(moveCardNope);
+                    deck.get(playerTurn).remove(moveNope);
+                    return true;
+                }
                 break;
             case DEFUSE:
-                //boolean containsDefuse = deck.get(playerTurn).contains(card);
                 int moveExplode = getCardIndex(CARDTYPE.EXPLODE, deck.get(playerTurn));
                 int moveDefuse = getCardIndex(CARDTYPE.DEFUSE, deck.get(playerTurn));
                 Card moveCardExplode = getCard(CARDTYPE.EXPLODE, deck.get(playerTurn));
@@ -191,7 +248,6 @@ public class ExplodingKittensGameState {
                     deck.get(playerTurn).remove(moveExplode);
                     deck.get(playerTurn).remove(moveDefuse);
                     ArrayList<Card> reference = deck.get(playerTurn);
-                    //move(CARDTYPE.EXPLODE,src,discard);
                     return true;
                 }
                 else if(deck.get(playerTurn).contains(card) && !hasExplode(deck.get(playerTurn))) {
@@ -221,6 +277,7 @@ public class ExplodingKittensGameState {
         }
         return false;
     }
+
 
     /**
      * getter method to get the index of a card in an arrayList
@@ -279,7 +336,6 @@ public class ExplodingKittensGameState {
         if (deck.get(currentPlayer) != null) return true;
         else return false;
     }
-
 
     /**
      * returns the state of the game, NOT THE EKGAMESTATE object
