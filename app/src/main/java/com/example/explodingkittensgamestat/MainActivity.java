@@ -13,8 +13,6 @@ import android.widget.EditText;
  * @author Alex Nastase
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    //Context context = this;
-
     /**
      * onCreate: creates the initial view of the game on the device
      *
@@ -54,13 +52,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         editText.append("Instance: First Instance\n");
         firstInstance.prepareGame();
+        editText.append(firstInstance.toString());
         secondInstance = new ExplodingKittensGameState(firstInstance);
-        test(firstInstance, editText);
+        //test(firstInstance, editText);
 
-        thirdInstance.prepareGame();
-        editText.append("Instance: Second Instance\n" + secondInstance.toString());
+        //thirdInstance.prepareGame();
+        //editText.append("Instance: Second Instance\n" + secondInstance.toString());
 
-        editText.append("Instance: Third Instance\n" + thirdInstance.toString());
+        //editText.append("Instance: Third Instance\n" + thirdInstance.toString());
 
     }
 
@@ -107,4 +106,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ins.endGame(ins.playerStatus);
         textBox.append(ins.gameStatetoString());
     }
+
 }

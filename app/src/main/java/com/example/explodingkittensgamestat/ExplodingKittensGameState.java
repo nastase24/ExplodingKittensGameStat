@@ -18,7 +18,7 @@ public class ExplodingKittensGameState {
     public ArrayList<Card> discard;
     public ArrayList<Card> draw;
     public boolean[] playerStatus;
-    public STATE gameState = STATE.PROGRAM_LAUNCHED;
+    public STATE gameState;
 
     public static final int NUM_PLAYERS = 4;
     public int playerTurn;
@@ -66,6 +66,7 @@ public class ExplodingKittensGameState {
                 deck.get(i).add(new Card(state.deck.get(i).get(j)));
             }
         }
+        this.gameState = state.gameState;
         this.playerStatus = state.playerStatus;
     }
 
@@ -353,8 +354,8 @@ public class ExplodingKittensGameState {
      */
     @Override
     public String toString(){
-        String string ="****************\n" + "Current Player: " + this.playerTurn + "\n\n DECK: \n" + this.deck.toString() +
-                "\n\n DRAW: \n" + this.draw.toString() + "\n\n DISCARD: \n" + this.discard.toString()
+        String string ="****************\n" + "Current Player: " + this.playerTurn + "\n\n DECK: \n"  + " Size: " + deck.size() + "\n"+ this.deck.toString() +
+                "\n\n DRAW: \n" + " Size: " + draw.size() + "\n"+ this.draw.toString() + "\n\n DISCARD: \n" + this.discard.toString()
                 + "\n\n";
         return string;
     }
@@ -363,61 +364,58 @@ public class ExplodingKittensGameState {
      * PrepareGame: calls createCards(), and then shuffles the draw pile. Iterates through the 4 player hands in
      * deck, and adds the first 6 cards into a player hand iff it isnt an exploding kitten using move()
      * and finally sets the gameState to GAME_SETUP
+     * @return - true if it executed properly, false if gameState is not init_objects, probably
+     *           because function was called in incorrect order
      */
-    //TODO change line 309 to send to draw
-    //TODO make sure draw is shuffled in the function
-    //TODO shuffle the hands
-    public void prepareGame(){
-        createCards();
-        for(int i = 0; i < 4; i++) {
-            for (int j = 0; j < 6; j++) {
-                //FIXME: make sure this gets every deck 7 cards even if there is double explode in draw
-                if (this.draw.get(j).getType() != CARDTYPE.EXPLODE) {
+    public boolean prepareGame() {
+
+        //hopefully init object state means there are not exploding kittens created yet
+        if (createCards()) {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 6; j++) {
                     moveStart(this.draw.get(j), this.draw, this.deck.get(i));
-                } else if (this.draw.get(j + 1).getType() != CARDTYPE.EXPLODE) {
-                    moveStart(this.draw.get(j + 1), this.draw, this.deck.get(i));
                 }
             }
-        }
-        //TODO delete below line(s) that was for testing only
-        draw.clear();
+
         this.draw.add(new Card(CARDTYPE.EXPLODE));
-        this.draw.add(new Card(CARDTYPE.SKIP));
-        this.draw.add(new Card(CARDTYPE.ATTACK));
-        this.draw.add(new Card(CARDTYPE.FAVOR));
-        this.draw.add(new Card(CARDTYPE.NOPE));
-        this.deck.get(2).add(new Card(CARDTYPE.SHUFFLE));
-        this.draw.add(new Card(CARDTYPE.MELON));
-        this.draw.add(new Card(CARDTYPE.BEARD));
-        this.draw.add(new Card(CARDTYPE.TACO));
-        this.draw.add(new Card(CARDTYPE.POTATO));
         this.draw.add(new Card(CARDTYPE.EXPLODE));
         this.draw.add(new Card(CARDTYPE.EXPLODE));
 
+        //SHUFFLE HANDS AND DRAW + DISARD
+        for (int i = 0; i < 4; i++) {
+            Collections.shuffle(deck.get(i));
+        }
+        Collections.shuffle(draw);
+        Collections.shuffle(discard);
         gameState = STATE.GAME_SETUP;
+        return true;
+    }
+        return false;
     }
 
     /**
      * createCards: creates a hashtable with the card types and their enum values, creates card
      * objects for the number of that type of card in the deck for a four-player game
-     *
+     * @return - true if actions were executed, false if gamestate is not INIT_ARRAYS,
+     *           probs bc it is called out of order
      */
-    public void createCards() {
+    public boolean createCards() {
         //sets the hash table keys and strings to the card description, and the card ID.
-        for(int i = 0; i < 4; i++){
-            this.draw.add(new Card(CARDTYPE.ATTACK));
-            this.draw.add(new Card(CARDTYPE.FAVOR));
-            this.draw.add(new Card(CARDTYPE.NOPE));
-            this.draw.add(new Card(CARDTYPE.SHUFFLE));
-            this.draw.add(new Card(CARDTYPE.SKIP));
-            this.draw.add(new Card(CARDTYPE.SEEFUTURE));
-            this.draw.add(new Card(CARDTYPE.MELON));
-            this.draw.add(new Card(CARDTYPE.BEARD));
-            this.draw.add(new Card(CARDTYPE.TACO));
-            this.draw.add(new Card(CARDTYPE.POTATO));
-        }
+        if (gameState == STATE.INIT_ARRAYS){
+            for (int i = 0; i < 4; i++) {
+                this.draw.add(new Card(CARDTYPE.ATTACK));
+                this.draw.add(new Card(CARDTYPE.FAVOR));
+                this.draw.add(new Card(CARDTYPE.NOPE));
+                this.draw.add(new Card(CARDTYPE.SHUFFLE));
+                this.draw.add(new Card(CARDTYPE.SKIP));
+                this.draw.add(new Card(CARDTYPE.SEEFUTURE));
+                this.draw.add(new Card(CARDTYPE.MELON));
+                this.draw.add(new Card(CARDTYPE.BEARD));
+                this.draw.add(new Card(CARDTYPE.TACO));
+                this.draw.add(new Card(CARDTYPE.POTATO));
+            }
 
-        for(int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             deck.get(i).add(new Card(CARDTYPE.DEFUSE));
         }
 
@@ -427,6 +425,9 @@ public class ExplodingKittensGameState {
         this.draw.add(new Card(CARDTYPE.SEEFUTURE));
 
         gameState = STATE.INIT_OBJECTS;
+        return true;
+    }
+        return false;
     }
 
     /**
@@ -434,6 +435,7 @@ public class ExplodingKittensGameState {
      * @param playerTurn - index of current player
      * @return - true if it did the actions
      * TODO: implement some checking to make sure the right player is being called
+     * TODO: make sure player is not out
      */
     public boolean takeTurn(int playerTurn){
         for(Card card: deck.get(playerTurn)){
