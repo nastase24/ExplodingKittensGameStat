@@ -438,6 +438,7 @@ public class ExplodingKittensGameState {
     public boolean takeTurn(int playerTurn){
         for(Card card: deck.get(playerTurn)){
             card.isPlayable = true;
+            card.isSelected = false;
         }
         return true;
     }

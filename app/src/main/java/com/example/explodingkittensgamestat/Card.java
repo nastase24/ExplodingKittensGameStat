@@ -113,7 +113,7 @@ public class Card extends Hashtable {
      */
     public String toString(){
         //return "Type: " + cardType.name() + " Is catCard: "+ isCatCard + "\n";
-        return cardType.name();
+        return cardType.name() + " playable : " + isPlayable + " selected: " + isSelected + " catCard: " + isCatCard;
     }
 
     /**
