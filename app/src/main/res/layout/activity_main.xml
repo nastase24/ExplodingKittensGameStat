@@ -25,6 +25,11 @@
             android:layout_height="wrap_content"
             android:onClick="onClick"
             android:text="Run Test" />
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="100dp"
+            android:layout_height="fill_parent"
+            />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

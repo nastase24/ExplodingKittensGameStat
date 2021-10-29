@@ -14,6 +14,8 @@ import java.util.Collections;
 
 public class ExplodingKittensGameState {
 
+
+    //TODO button linker
     public ArrayList<ArrayList<Card>> deck;
     public ArrayList<Card> discard;
     public ArrayList<Card> draw;
@@ -145,6 +147,7 @@ public class ExplodingKittensGameState {
      */
     //TODO test each playcard
     public boolean playCard(int playerTurn, CARDTYPE card, ArrayList<Card> src, ArrayList<Card> dest){
+        
         switch(card){
             case MELON:
                 int moveMelon = getCardIndex(CARDTYPE.MELON, deck.get(playerTurn));
@@ -381,7 +384,7 @@ public class ExplodingKittensGameState {
         this.draw.add(new Card(CARDTYPE.EXPLODE));
         this.draw.add(new Card(CARDTYPE.EXPLODE));
 
-        //SHUFFLE HANDS AND DRAW + DISARD
+        //SHUFFLE HANDS AND DRAW + DIScARD
         for (int i = 0; i < 4; i++) {
             Collections.shuffle(deck.get(i));
         }

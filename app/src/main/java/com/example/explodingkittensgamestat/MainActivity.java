@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 /**
  * MainActivity: Assigns the onCreate and onClick methods to create and allow click actions
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button runTest;
         runTest = findViewById(R.id.button);
         runTest.setOnClickListener(this);
+
     }
 
     /**
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 1. Clear any previous text displayed in the multi-line EditText
         EditText editText = findViewById(R.id.textBox);
         editText.setText("");
+        ImageButton imageButton = findViewById(R.id.imageButton);
 
         ExplodingKittensGameState firstInstance;
         ExplodingKittensGameState secondInstance;
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         editText.append("Instance: First Instance\n");
         firstInstance.prepareGame();
+        imageButton.setImageResource(firstInstance.draw.get(0).image);
         editText.append(firstInstance.toString());
         secondInstance = new ExplodingKittensGameState(firstInstance);
         //test(firstInstance, editText);
