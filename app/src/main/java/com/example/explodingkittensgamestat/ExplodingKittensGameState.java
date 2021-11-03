@@ -1,7 +1,12 @@
 package com.example.explodingkittensgamestat;
 
+import android.widget.Button;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+//TODO link old gui and humanplayerclass
+//TODO: override equals method it is dogwater
 
 /**
  * ExplodingKittensGameState: Creates the decks and assigns and moves cards according to player
@@ -16,12 +21,16 @@ public class ExplodingKittensGameState {
 
 
     //TODO button linker
+    /*
+    Create an arrayList of imageButtons, (in what class?) that can link to every button in the gui
+    set a static image for back of card, that we can use to "hide" a card value for draw, discard etc
+     */
     public ArrayList<ArrayList<Card>> deck;
     public ArrayList<Card> discard;
     public ArrayList<Card> draw;
     public boolean[] playerStatus;
     public STATE gameState;
-
+    public HashMap<Button, Card> buttonMap;
     public static final int NUM_PLAYERS = 4;
     public int playerTurn;
     public static final int DRAWCARD = 4000;
@@ -474,6 +483,14 @@ public class ExplodingKittensGameState {
             gameState = STATE.GAME_END;
             return true;
         }
+        return false;
+    }
+    //TODO card equals overload
+    public boolean equals(ExplodingKittensGameState state){
+        if(this.playerStatus.equals(state.playerStatus) && this.gameState.equals(state.gameState)){
+            return true;
+        }
+
         return false;
     }
 }

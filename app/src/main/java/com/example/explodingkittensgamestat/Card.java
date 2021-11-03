@@ -19,7 +19,6 @@ import java.util.Hashtable;
  * @author Alex Nastase
  */
 
-// TODO: Assign cards image ID so that it doesn't have to be an image button
 
 public class Card {
 
@@ -56,7 +55,7 @@ public class Card {
 
 
     }};
-    //TODO add rest of them
+
     static Hashtable<CARDTYPE, Integer> imageTable = new Hashtable()
     {{
         put(CARDTYPE.MELON,R.drawable.melon );
@@ -105,7 +104,6 @@ public class Card {
     //set card info in this constructor
     public Card(CARDTYPE type) {
         super();
-        //TODO: find a better place for this hashtable
 
         cardType = type;
         description = ht1.get(cardType);
